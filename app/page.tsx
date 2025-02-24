@@ -3,6 +3,8 @@ import Button from "./components/button"
 import Hero from "./components/hero"
 import UcomingEvents from "./components/upcoming-events"
 import Container from "./components/container"
+import WhyJoinEmn from "./components/why-join"
+import CtaSection from "./components/cta"
 
 export default function Home() {
   return ( 
@@ -37,14 +39,8 @@ export default function Home() {
           ))}
         </div>
         </Container>
-
-        <Container>
-        <h2 className="font-candu tracking-loose mb-8 inline-flex rounded-tl-3xl rounded-br-3xl bg-[#6cbe45] px-6 py-2 text-3xl  text-white">
-          WHY JOIN EMN
-        </h2>
-        <p className="font-medium md:text-xl text-foreground/80 mb-5">Discover opportunities to engage in emerging markets while building valuable skils and connections</p>
-
-        </Container>
+        <WhyJoinEmn/>
+        <CtaSection/>
     </div>
   );
 }
