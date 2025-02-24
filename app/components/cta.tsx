@@ -11,7 +11,7 @@ export default function CtaSection() {
               EMERGING MARKETS?
             </h2>
             <p className="font-semibold text-white/90">
-              Join EMN today, learn all there is to know about emerging markets and become part of a community that's
+              Join EMN today, learn all there is to know about emerging markets and become part of a community that&aposs
               shaping the future.
             </p>
           </div>
