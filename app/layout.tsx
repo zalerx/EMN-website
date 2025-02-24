@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import Header from "./components/header";
+import Footer from "./components/footer";
+import "./ui/globals.css";
 import { schibstedGrotesk, candu } from "./ui/fonts"; 
 
 export const metadata: Metadata = {
@@ -14,10 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${candu.className} antialiased`}
-      >
+      <body className={`antialiased ${schibstedGrotesk.className}`}>
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

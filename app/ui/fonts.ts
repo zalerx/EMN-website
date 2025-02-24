@@ -10,5 +10,3 @@ export const candu = Candu({
     src: '../../public/fonts/Candu.woff2',
     display: 'swap',
     });
-
-

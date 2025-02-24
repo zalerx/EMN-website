@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+      --primary: 108 75% 35%;
+      --background: 0 0% 100%;
+      --foreground: 0 0% 14%;
+    }
+  }
+
+body {
+    font-family: 'Schibsted Grotesk', sans-serif;
+    background-color: #f1f1f1;
+
+}
+
+
+.font-candu {
+    font-family: 'Candu', sans-serif;
+}
+
