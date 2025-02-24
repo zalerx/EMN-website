@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { cn } from '@/app/lib/utils'
-import Link from 'next/link'
 
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   href?: string;

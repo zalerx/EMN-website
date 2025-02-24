@@ -1,5 +1,4 @@
 import Button from "./button"
-import Globe from "./globe"
 
 export default function CtaSection() {
   return (

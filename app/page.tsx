@@ -1,7 +1,5 @@
-import Image from "next/image";
+
 import Button from "./components/button"
-import Hero from "./components/hero"
-import UcomingEvents from "./components/upcoming-events"
 import Container from "./components/container"
 import WhyJoinEmn from "./components/why-join"
 import CtaSection from "./components/cta"
@@ -39,6 +37,7 @@ export default function Home() {
           ))}
         </div>
         </Container>
+        
         <WhyJoinEmn/>
         <CtaSection/>
     </div>
