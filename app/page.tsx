@@ -6,14 +6,14 @@ import CtaSection from "./components/cta"
 
 export default function Home() {
   return ( 
-    <div className="min-h-screen bg-background mx-auto md: p-8">
+    <div className="min-h-screen bg-background mx-auto px-4 md:p-6">
         <Container>
-          <h1 className="font-candu mb-6 text-4xl md:text-[8rem] leading-extra-tight tracking-tight text-[#231f20]">
+          <h1 className="font-candu mb-6 text-[3rem] md:text-[8rem] leading-extra-tight tracking-tight text-[#231f20]">
             THE EMERGING
             MARKETS
             NETWORK
           </h1>
-          <p className="font-medium md:text-xl text-foreground/80 mb-5">
+          <p className="font-medium text-sm md:text-xl text-foreground/80 mb-5">
             Explore the dynamic intersection of finance, economics, and politics in emerging markets.
           </p>
           <Button href="../about" className="font-bold text-[20px] border-black border-2 px-5 py-2 background-[#f1f1f1]">
