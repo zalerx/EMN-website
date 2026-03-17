@@ -16,15 +16,15 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-white text-xs md:text-lg md:space-x-1">
-      <nav className="mx-auto flex justify-between items-center p-4">
-        <Image src="/EMN-logo.svg" alt="EMN" width={100} height={50} />
+    <header className="bg-white text-xs md:text-lg md:space-x-2 m-2 rounded-2xl shadow-xl">
+      <nav className="mx-auto flex font-semibold justify-between items-center p-4 px-6">
+        <Image src="/EMN-logo.svg" alt="EMN" width={100} height={50}/>
         <div className="flex items-center space-x-2 md:hidden">
           <button onClick={toggleMenu} className="focus:outline-none">
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
-        <div className="hidden md:flex md:flex-row md:items-center md:space-x-2">
+        <div className="hidden md:flex md:space-x-4">
           <Link
             href="/"
             className={pathname === '/' ? 'underline decoration-[#6ebf46] decoration-4' : ''}
@@ -44,9 +44,6 @@ export default function Header() {
             Events
           </Link>
         </div>
-        <Button href="https://umsu.unimelb.edu.au/buddy-up/clubs/clubs-listing/join/7894/" className="hidden md:block">
-          Become a Member
-        </Button>
       </nav>
       {isMenuOpen && (
         <div className="text-xl text-white font-bold fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#231e20]">
