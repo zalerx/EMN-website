@@ -1,10 +1,8 @@
 'use client';
 
-import { DateTime } from "luxon";
 import React, {
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -42,11 +40,11 @@ interface GameProps {
 
 export function Game({ settingsData }: GameProps) {
   const { t, i18n } = useTranslation();
-  const [dayString, setDayString] = useState(getRandomDateString());
+  const [dayString] = useState(getRandomDateString());
 
   const countryInputRef = useRef<HTMLInputElement>(null);
 
-  const [country, randomAngle, imageScale] = useCountry(`tradle.${dayString}`);
+  const [country] = useCountry(`tradle.${dayString}`);
 
   const [currentGuess, setCurrentGuess] = useState<string>("");
   const [countryValue, setCountryValue] = useState<string>("");

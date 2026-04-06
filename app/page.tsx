@@ -1,6 +1,5 @@
 
 import Button from "./components/button"
-import Container from "./components/container"
 export default function Home() {
   return (
     <div className="min-h-screen bg-background mx-auto px-4 md:p-6">
