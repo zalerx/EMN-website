@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Header from "./components/header";
 import Footer from "./components/footer";
+import Providers from "./components/providers";
 import "./ui/globals.css";
-import { schibstedGrotesk } from "./ui/fonts"; 
+import { schibstedGrotesk } from "./ui/fonts";
 
 export const metadata: Metadata = {
   title: "The Emerging Markets Network",
@@ -17,9 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased ${schibstedGrotesk.className}`}>
-        <Header />
-        {children}
-        <Footer />
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
