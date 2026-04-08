@@ -10,12 +10,10 @@ export const authOptions: NextAuthOptions = {
     secret: process.env.SUPABASE_SERVICE_ROLE_KEY!,
   }),
   session: { strategy: "database" },
-  // Custom pages — re-enable once Phase 2 builds /membership
-  // pages: {
-  //   signIn: "/membership",
-  //   verifyRequest: "/membership/check-email",
-  //   error: "/membership",
-  // },
+  pages: {
+    signIn: "/membership",
+    error: "/membership",
+  },
   providers: [
     EmailProvider({
       server: process.env.EMAIL_SERVER!,
