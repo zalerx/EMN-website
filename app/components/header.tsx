@@ -1,82 +1,98 @@
 "use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import Button from './button';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react'; // Import icons for menu and close
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
+import { cn } from "@/app/lib/utils";
+
+const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About Us" },
+  { href: "/events", label: "Events" },
+  { href: "/sponsors", label: "Sponsors" },
+];
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <header className="bg-white text-xs md:text-lg md:space-x-2 m-2 rounded-2xl shadow-xl">
-      <nav className="mx-auto flex font-semibold justify-between items-center p-4 px-6">
-        <Image src="/EMN-logo.svg" alt="EMN" width={100} height={50}/>
-        <div className="flex items-center space-x-2 md:hidden">
-          <button onClick={toggleMenu} className="focus:outline-none">
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+    <header className="px-3 pt-3 md:px-[18px] md:pt-[21px]">
+      <nav className="mx-auto flex max-w-[1236px] items-center justify-between rounded-header bg-white px-5 py-3 shadow-header md:px-[33px] md:py-[18px]">
+        <Link href="/" aria-label="EMN home" className="flex items-center">
+          <Image
+            src="/EMN-logo.svg"
+            alt="EMN"
+            width={125}
+            height={29}
+            priority
+          />
+        </Link>
+
+        {/* Desktop nav */}
+        <div className="hidden items-center gap-2 md:flex md:gap-[19px]">
+          {NAV_LINKS.map(({ href, label }) => {
+            const active = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={cn(
+                  "rounded-[16.5px] px-4 py-[7px] text-base font-bold text-emn-black transition-colors",
+                  active
+                    ? "border-2 border-emn-black"
+                    : "border-2 border-transparent hover:border-emn-black/30"
+                )}
+              >
+                {label}
+              </Link>
+            );
+          })}
         </div>
-        <div className="hidden md:flex md:space-x-4">
-          <Link
-            href="/"
-            className={pathname === '/' ? 'underline decoration-[#6ebf46] decoration-4' : ''}
-          >
-            Home
-          </Link>
-          <Link
-            href="/about"
-            className={pathname === '/about' ? 'underline decoration-[#6ebf46] decoration-4' : ''}
-          >
-            About Us
-          </Link>
-          <Link
-            href="/events"
-            className={pathname === '/events' ? 'underline decoration-[#6ebf46] decoration-4' : ''}
-          >
-            Events
-          </Link>
-        </div>
+
+        {/* Mobile toggle */}
+        <button
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+          className="md:hidden focus:outline-none"
+        >
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
       </nav>
+
       {isMenuOpen && (
-        <div className="text-xl text-white font-bold fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#231e20]">
-          <button onClick={toggleMenu} className="absolute top-4 right-4 focus:outline-none">
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 bg-emn-black text-xl font-bold text-white">
+          <button
+            onClick={toggleMenu}
+            aria-label="Close menu"
+            className="absolute right-4 top-4"
+          >
             <X className="h-6 w-6" />
           </button>
-          <div className="flex flex-col items-center space-y-4">
+          {NAV_LINKS.map(({ href, label }) => (
             <Link
-              href="/"
-              className={pathname === '/' ? 'underline decoration-[#6ebf46] decoration-4' : ''}
+              key={href}
+              href={href}
               onClick={toggleMenu}
+              className={
+                pathname === href
+                  ? "underline decoration-emn-green decoration-4"
+                  : ""
+              }
             >
-              Home
+              {label}
             </Link>
-            <Link
-              href="/about"
-              className={pathname === '/about' ? 'underline decoration-[#6ebf46] decoration-4' : ''}
-              onClick={toggleMenu}
-            >
-              About Us
-            </Link>
-            <Link
-              href="/events"
-              className={pathname === '/events' ? 'underline decoration-[#6ebf46] decoration-4' : ''}
-              onClick={toggleMenu}
-            >
-              Events
-            </Link>
-
-            <Button href="https://umsu.unimelb.edu.au/buddy-up/clubs/clubs-listing/join/7894/" className="bg-[#f1f1f1] text-black mt-8 text-lg hover:white">
-              Become a Member
-            </Button>
-          </div>
+          ))}
+          <Link
+            href="https://umsu.unimelb.edu.au/buddy-up/clubs/clubs-listing/join/7894/"
+            onClick={toggleMenu}
+            className="mt-4 rounded-pill border-2 border-white bg-emn-green px-6 py-3 text-base font-black text-white"
+          >
+            Become a Member
+          </Link>
         </div>
       )}
     </header>
