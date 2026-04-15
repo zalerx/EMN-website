@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function CtaSection() {
   return (
-    <section className="w-full max-w-[1197px] overflow-hidden rounded-section bg-emn-green-mid p-6 md:h-[620px] md:p-[30px]">
-      <div className="flex h-full flex-col items-start justify-center rounded-br-[40px] rounded-tl-[40px] border-4 border-emn-offwhite p-8 md:rounded-br-[85px] md:rounded-tl-[85px] md:p-[69px]">
+    <section className="w-full max-w-[1197px] overflow-hidden rounded-section bg-emn-green-mid p-6 py-12 md:h-[620px] md:p-[30px]">
+      <div className="flex h-full flex-col items-start justify-center rounded-br-[40px] rounded-tl-[40px] border-4 border-emn-offwhite px-12 py-12 md:rounded-br-[85px] md:rounded-tl-[85px] md:p-[69px]">
         <h2 className="font-candu text-[40px] leading-extra-tight text-emn-offwhite md:text-[64px]">
           READY TO EXPLORE
           <br />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 type Status =
@@ -52,38 +52,60 @@ export default function MembershipPage() {
   // Already logged in → send them to their card.
   if (sessionStatus === "authenticated" && session?.user) {
     return (
-      <main className="flex min-h-[70vh] flex-col items-center justify-center px-4 py-16">
-        <div className="w-full max-w-md rounded-section bg-emn-green-dark p-8 text-center md:p-12">
-          <h1 className="font-candu text-[40px] leading-extra-tight text-emn-offwhite md:text-[56px]">
-            WELCOME BACK
-          </h1>
-          <p className="mt-4 text-lg text-emn-offwhite/80">
-            You&apos;re signed in as{" "}
-            <strong className="text-emn-offwhite">{session.user.email}</strong>.
-          </p>
-          <Link
-            href="/membership/card"
-            className="mt-8 inline-flex h-[55px] w-full max-w-[313px] items-center justify-center rounded-pill bg-emn-green px-4 text-lg font-black text-white"
-          >
-            Open my membership card
-          </Link>
+      <main className="flex min-h-[70vh] flex-col items-center px-4 py-16">
+        <h1 className="font-candu text-[56px] text-emn-black md:text-title">
+          MEMBERSHIP
+        </h1>
+        <div className="relative mt-20 w-full max-w-[681px]">
+          <div className="absolute -top-[34px] left-[46px] z-10 inline-flex items-center justify-center rounded-br-pill rounded-tl-pill border-4 border-emn-black bg-emn-offwhite px-[30px] pb-[6px] pt-[12px]">
+            <span className="font-candu text-heading uppercase text-emn-black">
+              WELCOME BACK
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-[25px] rounded-[16px] border-4 border-emn-black px-10 pb-10 pt-[59px]">
+            <div className="flex w-full flex-col gap-[31px]">
+              <div className="flex w-full items-start justify-between text-base font-semibold">
+                <p className="text-black">You&apos;re signed in as:</p>
+                <button
+                  type="button"
+                  onClick={() => signOut({ callbackUrl: "/membership" })}
+                  className="italic text-emn-black"
+                >
+                  [sign out]
+                </button>
+              </div>
+              <p className="w-full text-center text-description text-black">
+                {session.user.email}
+              </p>
+            </div>
+            <Link
+              href="/membership/card"
+              className="inline-flex h-[55px] w-[313px] max-w-full items-center justify-center rounded-pill bg-emn-black text-xl font-black text-white"
+            >
+              View Membership Card
+            </Link>
+          </div>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="flex min-h-[70vh] flex-col items-center justify-center px-4 py-16">
-      <div className="w-full max-w-md">
-        <h1 className="font-candu text-center text-[48px] leading-extra-tight tracking-tight text-emn-black md:text-[64px]">
-          MEMBERSHIP
-        </h1>
-        <p className="mt-4 text-center text-base text-emn-black/70 md:text-lg">
-          Enter the email you used to sign up with EMN. We&apos;ll send you a
-          one-time link to open your digital membership card.
-        </p>
+    <main className="flex min-h-[70vh] flex-col items-center px-4 py-16">
+      <h1 className="font-candu text-[56px] text-emn-black md:text-title">
+        MEMBERSHIP
+      </h1>
 
-        <div className="mt-10">
+      <div className="relative mt-20 w-full max-w-[681px]">
+        {/* Leaf heading badge */}
+        <div className="absolute -top-[34px] left-[46px] z-10 inline-flex items-center justify-center rounded-br-pill rounded-tl-pill border-4 border-emn-black bg-emn-offwhite px-[30px] pb-[6px] pt-[12px]">
+          <span className="font-candu text-heading uppercase text-emn-black">
+            VERIFY YOUR EMAIL
+          </span>
+        </div>
+
+        {/* Form card */}
+        <div className="flex flex-col items-center gap-[25px] rounded-[16px] border-4 border-emn-black px-6 pb-10 pt-[59px] md:px-10">
           {status.kind === "sent" ? (
             <SentState
               email={status.email}
@@ -92,35 +114,47 @@ export default function MembershipPage() {
           ) : status.kind === "notMember" ? (
             <NotMemberState onReset={() => setStatus({ kind: "idle" })} />
           ) : (
-            <form onSubmit={onSubmit} className="space-y-5">
-              <label className="block">
-                <span className="mb-2 block text-sm font-bold text-emn-black">
-                  Student email
-                </span>
-                <input
-                  type="email"
-                  required
-                  autoComplete="email"
-                  placeholder="you@student.unimelb.edu.au"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={status.kind === "loading"}
-                  className="w-full rounded-pill border-2 border-emn-black bg-white px-5 py-3 text-base focus:outline-none focus:ring-2 focus:ring-emn-green disabled:opacity-50"
-                />
-              </label>
+            <>
+              <p className="w-full text-base font-semibold text-black">
+                Enter the email you used to sign up with EMN and we&apos;ll send
+                you a one-time link to open your digital membership card.
+              </p>
 
-              {status.kind === "error" && (
-                <p className="text-sm text-red-600">{status.message}</p>
-              )}
-
-              <button
-                type="submit"
-                disabled={status.kind === "loading"}
-                className="inline-flex h-[55px] w-full items-center justify-center rounded-pill bg-emn-green px-5 text-lg font-black text-white transition-colors disabled:opacity-50"
+              <form
+                onSubmit={onSubmit}
+                className="flex w-full flex-col items-center gap-[25px] px-0 md:px-[60px]"
               >
-                {status.kind === "loading" ? "Sending..." : "Send magic link"}
-              </button>
-            </form>
+                <label className="w-full">
+                  <span className="mb-2 block text-base font-semibold text-black">
+                    Student Email
+                  </span>
+                  <input
+                    type="email"
+                    required
+                    autoComplete="email"
+                    placeholder="you@student.unimelb.edu.au"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={status.kind === "loading"}
+                    className="h-[45px] w-full rounded-[15px] border-[3px] border-emn-black bg-white px-4 text-base focus:outline-none focus:ring-2 focus:ring-emn-green disabled:opacity-50"
+                  />
+                </label>
+
+                {status.kind === "error" && (
+                  <p className="w-full text-sm text-red-600">
+                    {status.message}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={status.kind === "loading"}
+                  className="inline-flex h-[55px] w-[313px] max-w-full items-center justify-center rounded-pill bg-emn-black text-xl font-black text-white transition-colors disabled:opacity-50"
+                >
+                  {status.kind === "loading" ? "Sending..." : "Send link"}
+                </button>
+              </form>
+            </>
           )}
         </div>
       </div>
@@ -136,19 +170,15 @@ function SentState({
   onReset: () => void;
 }) {
   return (
-    <div className="rounded-section bg-emn-green-dark p-8 text-center">
-      <h2 className="font-candu text-[32px] leading-extra-tight text-emn-offwhite">
-        CHECK YOUR INBOX
-      </h2>
-      <p className="mt-4 text-base text-emn-offwhite/80">
-        We sent a sign-in link to{" "}
-        <strong className="text-emn-offwhite">{email}</strong>. Click it from
-        this device to open your card. The link expires in 24 hours.
+    <div className="flex w-full flex-col items-center gap-4 text-center">
+      <p className="text-base font-semibold text-black">
+        We sent a sign-in link to <strong>{email}</strong>. Click it from this
+        device to open your card. The link expires in 24 hours.
       </p>
       <button
         type="button"
         onClick={onReset}
-        className="mt-6 text-sm font-bold text-emn-offwhite underline decoration-emn-green decoration-2 underline-offset-4"
+        className="text-sm font-bold text-emn-black underline decoration-emn-green decoration-2 underline-offset-4"
       >
         Use a different email
       </button>
@@ -158,28 +188,25 @@ function SentState({
 
 function NotMemberState({ onReset }: { onReset: () => void }) {
   return (
-    <div className="rounded-section bg-emn-black p-8 text-center">
-      <h2 className="font-candu text-[32px] leading-extra-tight text-emn-offwhite">
-        NOT A MEMBER YET
-      </h2>
-      <p className="mt-4 text-base text-emn-offwhite/80">
+    <div className="flex w-full flex-col items-center gap-4 text-center">
+      <p className="text-base font-semibold text-black">
         We couldn&apos;t find that email in our member list. EMN memberships are
         managed through UMSU — join the club there and we&apos;ll add you to the
         roster within a few days.
       </p>
-      <div className="mt-6 flex flex-col items-center gap-3 md:flex-row md:justify-center">
+      <div className="flex flex-col items-center gap-3 md:flex-row">
         <Link
           href={UMSU_JOIN_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex h-[48px] w-full items-center justify-center rounded-pill bg-emn-green px-6 text-base font-black text-white md:w-auto"
+          className="inline-flex h-[55px] w-[313px] max-w-full items-center justify-center rounded-pill bg-emn-black text-xl font-black text-white"
         >
           Join via UMSU
         </Link>
         <button
           type="button"
           onClick={onReset}
-          className="inline-flex h-[48px] w-full items-center justify-center rounded-pill border-2 border-emn-offwhite px-6 text-base font-bold text-emn-offwhite md:w-auto"
+          className="text-sm font-bold text-emn-black underline decoration-emn-green decoration-2 underline-offset-4"
         >
           Try another email
         </button>

@@ -1,27 +1,7 @@
 import Link from "next/link";
 import { Instagram, Facebook, Linkedin } from "lucide-react";
-import EventCard from "./components/event-card";
 import CtaSection from "./components/cta";
-
-const PUB_NIGHT_IMAGE =
-  "https://www.figma.com/api/mcp/asset/e3ea98ba-1b93-4650-8568-f2aef9b3c43a";
-
-const EVENTS = [
-  {
-    title: "Pub Night",
-    date: "MARCH 6 2025, 6:00PM",
-    description:
-      "The Emerging Markets Network and Global Affairs Society are hosting a pub night at The Clyde Hotel with free drinks and food",
-    imageSrc: PUB_NIGHT_IMAGE,
-  },
-  {
-    title: "Pub Night",
-    date: "MARCH 6 2025, 6:00PM",
-    description:
-      "The Emerging Markets Network and Global Affairs Society are hosting a pub night at The Clyde Hotel with free drinks and food",
-    imageSrc: PUB_NIGHT_IMAGE,
-  },
-];
+import SectionContainer from "./components/section-container";
 
 export default function Home() {
   return (
@@ -46,16 +26,23 @@ export default function Home() {
       </section>
 
       {/* Events */}
-      <section className="flex w-full max-w-[1190px] flex-col items-center gap-10 rounded-section bg-emn-green-dark p-6 md:gap-[45px] md:p-[30px]">
+      <SectionContainer color="green-dark">
         <h2 className="font-candu text-[56px] uppercase text-emn-offwhite md:text-title">
           events
         </h2>
-        <div className="flex flex-col items-center justify-center gap-12 md:flex-row md:gap-[102px]">
-          {EVENTS.map((event, i) => (
-            <EventCard key={i} {...event} />
-          ))}
-        </div>
-      </section>
+        <p className="text-center text-lg text-emn-offwhite/80">
+          Events showcase coming soon. In the meantime, check out our{" "}
+          <Link
+            href="https://www.instagram.com/emnunimelb/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-bold text-emn-offwhite underline decoration-emn-green decoration-2 underline-offset-4"
+          >
+            Instagram
+          </Link>{" "}
+          for the latest updates.
+        </p>
+      </SectionContainer>
 
       {/* Sponsors */}
       <section className="flex w-full max-w-[1190px] flex-col items-center gap-8 md:gap-[29px]">
@@ -76,7 +63,7 @@ export default function Home() {
       </section>
 
       {/* About */}
-      <section className="flex w-full max-w-[1190px] flex-col items-center gap-8 rounded-section bg-emn-black p-6 md:h-[499px] md:p-[30px]">
+      <SectionContainer color="black" className="md:h-[499px]">
         <h2 className="font-candu text-[56px] uppercase text-emn-offwhite md:text-title">
           ABOUT EMN
         </h2>
@@ -91,7 +78,7 @@ export default function Home() {
         >
           Learn more
         </Link>
-      </section>
+      </SectionContainer>
 
       {/* Socials */}
       <section className="flex w-full flex-col items-center gap-8 md:gap-[29px]">
