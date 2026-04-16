@@ -52,13 +52,13 @@ export default function MembershipPage() {
   // Already logged in → send them to their card.
   if (sessionStatus === "authenticated" && session?.user) {
     return (
-      <main className="flex min-h-[70vh] flex-col items-center px-4 py-16">
-        <h1 className="font-candu text-[56px] text-emn-black md:text-title">
+      <main className="flex min-h-[70vh] flex-col items-center px-4 py-10">
+        <h1 className="font-candu text-[46px] text-emn-black md:text-title">
           MEMBERSHIP
         </h1>
         <div className="relative mt-20 w-full max-w-[681px]">
-          <div className="absolute -top-[34px] left-[46px] z-10 inline-flex items-center justify-center rounded-br-pill rounded-tl-pill border-4 border-emn-black bg-emn-offwhite px-[30px] pb-[6px] pt-[12px]">
-            <span className="font-candu text-heading uppercase text-emn-black">
+          <div className="absolute -top-[34px] left-6 md:left-[46px] z-10 inline-flex items-center justify-center rounded-br-pill rounded-tl-pill border-4 border-emn-black bg-emn-offwhite px-5 md:px-[30px] pb-[6px] pt-[12px]">
+            <span className="font-candu text-[24px] md:text-heading uppercase text-emn-black">
               WELCOME BACK
             </span>
           </div>
@@ -91,15 +91,15 @@ export default function MembershipPage() {
   }
 
   return (
-    <main className="flex min-h-[70vh] flex-col items-center px-4 py-16">
-      <h1 className="font-candu text-[56px] text-emn-black md:text-title">
+    <main className="flex min-h-[70vh] flex-col items-center px-4 py-10">
+      <h1 className="font-candu text-[46px] text-emn-black md:text-title">
         MEMBERSHIP
       </h1>
 
       <div className="relative mt-20 w-full max-w-[681px]">
         {/* Leaf heading badge */}
-        <div className="absolute -top-[34px] left-[46px] z-10 inline-flex items-center justify-center rounded-br-pill rounded-tl-pill border-4 border-emn-black bg-emn-offwhite px-[30px] pb-[6px] pt-[12px]">
-          <span className="font-candu text-heading uppercase text-emn-black">
+        <div className="absolute -top-[34px] left-6 md:left-[46px] z-10 inline-flex items-center justify-center rounded-br-pill rounded-tl-pill border-4 border-emn-black bg-emn-offwhite px-5 md:px-[30px] pb-[6px] pt-[12px]">
+          <span className="font-candu text-mheading md:text-heading uppercase text-emn-black">
             VERIFY YOUR EMAIL
           </span>
         </div>

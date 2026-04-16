@@ -27,10 +27,10 @@ export default function Home() {
 
       {/* Events */}
       <SectionContainer color="green-dark">
-        <h2 className="font-candu text-[56px] uppercase text-emn-offwhite md:text-title">
+        <h2 className="text-center font-candu text-[56px] uppercase text-emn-offwhite md:text-title">
           events
         </h2>
-        <p className="text-center text-lg text-emn-offwhite/80">
+        <p className="max-w-[820px] text-center text-lg text-emn-offwhite/80 md:text-description">
           Events showcase coming soon. In the meantime, check out our{" "}
           <Link
             href="https://www.instagram.com/emnunimelb/"
@@ -64,10 +64,10 @@ export default function Home() {
 
       {/* About */}
       <SectionContainer color="black" className="md:h-[499px]">
-        <h2 className="font-candu text-[56px] uppercase text-emn-offwhite md:text-title">
+        <h2 className="text-center font-candu text-[56px] leading-[0.9] uppercase text-emn-offwhite md:text-title">
           ABOUT EMN
         </h2>
-        <p className="max-w-[820px] text-center text-emn-offwhite/80 md:text-description">
+        <p className="max-w-[820px] text-center text-lg text-emn-offwhite/80 md:text-description">
           The Emerging Markets Network (EMN) is a University of Melbourne
           Student Union affiliated club, exploring the economics, politics and
           financial markets of emerging nations.

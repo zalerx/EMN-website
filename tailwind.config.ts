@@ -23,6 +23,7 @@ export default {
         // Figma tokens
         title: ["96px", { lineHeight: "1" }],
         heading: ["36px", { lineHeight: "1" }],
+        mheading: ["24px", { lineHeight: "1" }],
         description: ["24px", { lineHeight: "1.2" }],
       },
       lineHeight: {

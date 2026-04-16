@@ -20,7 +20,17 @@ const SHAPE_CLASSES = {
 } as const;
 
 export default async function CardPage() {
+  // DEV ONLY — bypass auth to preview styling without signing in.
+  // Uncomment the two lines below (and comment out the strict session check)
+  // to enable. Requires NEXT_PUBLIC_DEV_BYPASS_AUTH=1 in .env.local.
+  // const bypass = process.env.NEXT_PUBLIC_DEV_BYPASS_AUTH === "1";
   const session = await getServerSession(authOptions);
+
+  // if (!bypass && (!session?.user?.studentId || !session.user.name)) {
+  //   redirect("/membership");
+  // }
+  // const studentId = session?.user?.studentId ?? 1234567;
+  // const name = session?.user?.name ?? "Doe, John";
 
   if (!session?.user?.studentId || !session.user.name) {
     redirect("/membership");
@@ -47,7 +57,7 @@ export default async function CardPage() {
   return (
     <main className="flex min-h-[70vh] flex-col items-center px-4 py-16">
       {/* Title */}
-      <h1 className="font-candu text-[56px] text-emn-black md:text-title">
+      <h1 className="font-candu text-[46px] text-emn-black md:text-title">
         MEMBERSHIP
       </h1>
 
@@ -63,8 +73,8 @@ export default async function CardPage() {
       <div className="mt-6 w-full max-w-[907px] rounded-[24px] bg-emn-green-dark p-6 md:p-10">
         <div className="flex flex-col rounded-br-[60px] rounded-tl-[60px] border-4 border-white p-6 md:flex-row md:items-stretch md:rounded-br-[85px] md:rounded-tl-[85px] md:p-10">
           {/* Left column: title + member details */}
-          <div className="flex flex-1 flex-col justify-between">
-            <h2 className="font-candu text-[36px] font-bold leading-extra-tight text-white md:text-[64px]">
+          <div className="flex flex-1 flex-col pt-[12px] justify-between">
+            <h2 className="font-candu text-[34px] font-bold leading-extra-tight text-white md:text-[64px]">
               MEMBERSHIP
               <br />
               CARD
@@ -118,9 +128,9 @@ export default async function CardPage() {
       {/* Participating Sponsors */}
       <div className="relative mt-20 w-full max-w-[916px]">
         {/* Leaf heading badge */}
-        <div className="absolute -top-[34px] left-[46px] z-10 inline-flex items-center justify-center rounded-br-pill rounded-tl-pill border-4 border-emn-black bg-emn-offwhite px-[30px] pb-[6px] pt-[12px]">
-          <span className="font-candu text-heading uppercase text-emn-black">
-            Participating sponsors
+        <div className="absolute -top-[34px] left-6 md:left-[46px] z-10 w-fit rounded-br-pill rounded-tl-pill border-4 border-emn-black bg-emn-offwhite px-5 pt-[12px] pb-[6px] md:px-[30px]">
+          <span className="font-candu text-mheading md:text-heading uppercase text-emn-black">
+            Participating<br className="md:hidden" /> sponsors
           </span>
         </div>
 
