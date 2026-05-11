@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/app/lib/utils";
+import Button from "@/app/components/button";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -36,15 +37,25 @@ export default function Header() {
         <div className="hidden items-center gap-2 md:flex md:gap-[19px]">
           {NAV_LINKS.map(({ href, label }) => {
             const active = pathname === href;
-            return (
+            return active ? (
+              <Button
+                key={href}
+                href={href}
+                className="text-base"
+                innerClassName="px-4 py-[7px]"
+                color="white"
+                outlineColor="emn-black"
+                textColor="emn-black"
+              >
+                {label}
+              </Button>
+            ) : (
               <Link
                 key={href}
                 href={href}
                 className={cn(
                   "rounded-[16.5px] px-4 py-[7px] text-base font-bold text-emn-black transition-colors",
-                  active
-                    ? "border-2 border-emn-black"
-                    : "border-2 border-transparent hover:border-emn-black/30"
+                  "border-2 border-transparent hover:border-emn-black/30"
                 )}
               >
                 {label}
@@ -86,13 +97,16 @@ export default function Header() {
               {label}
             </Link>
           ))}
-          <Link
+          <Button
             href="https://umsu.unimelb.edu.au/buddy-up/clubs/clubs-listing/join/7894/"
             onClick={toggleMenu}
-            className="mt-4 rounded-pill border-2 border-white bg-emn-green px-6 py-3 text-base font-black text-white"
+            className="mt-4 text-base font-black"
+            color="emn-green"
+            outlineColor="white"
+            textColor="white"
           >
             Become a Member
-          </Link>
+          </Button>
         </div>
       )}
     </header>
