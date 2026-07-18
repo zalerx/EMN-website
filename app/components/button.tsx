@@ -11,7 +11,7 @@ import { cn } from "@/app/lib/utils";
 const EMN_COLORS: Record<string, string> = {
   "emn-black": "#221f20",
   "emn-offwhite": "#f1f1f1",
-  "emn-green": "#6ebf46",
+  "emn-green": "#6cbe45",
   "emn-green-mid": "#469042",
   "emn-green-dark": "#18512d",
   white: "#ffffff",
