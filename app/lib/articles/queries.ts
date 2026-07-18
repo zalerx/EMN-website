@@ -151,12 +151,16 @@ export async function listAllArticles(): Promise<ArticleListItem[]> {
 }
 
 // Short-lived signed URL for a private-bucket object (PDFs, covers,
-// markdown originals). One hour: long enough to read an article, short
-// enough that a leaked URL goes stale the same afternoon.
-export async function getSignedFileUrl(path: string): Promise<string | null> {
+// markdown originals). Default one hour; ISR-cached pages should pass a
+// longer expiry than their revalidate window so a cached page never serves
+// an already-stale URL.
+export async function getSignedFileUrl(
+  path: string,
+  expiresInSeconds = 60 * 60
+): Promise<string | null> {
   const { data, error } = await supabaseAdmin.storage
     .from("articles")
-    .createSignedUrl(path, 60 * 60);
+    .createSignedUrl(path, expiresInSeconds);
   if (error) {
     console.error("[articles] failed to sign storage URL:", error.message);
     return null;
