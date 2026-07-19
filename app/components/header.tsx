@@ -12,8 +12,17 @@ const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   { href: "/events", label: "Events" },
+  { href: "/articles", label: "Articles" },
   { href: "/sponsors", label: "Sponsors" },
 ];
+
+// Home only matches exactly; other sections stay active on nested routes
+// (e.g. /articles/some-slug).
+function isActive(pathname: string, href: string) {
+  return href === "/"
+    ? pathname === "/"
+    : pathname === href || pathname.startsWith(`${href}/`);
+}
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,7 +45,7 @@ export default function Header() {
         {/* Desktop nav */}
         <div className="hidden items-center gap-2 md:flex md:gap-[19px]">
           {NAV_LINKS.map(({ href, label }) => {
-            const active = pathname === href;
+            const active = isActive(pathname, href);
             return active ? (
               <Button
                 key={href}
@@ -89,7 +98,7 @@ export default function Header() {
               href={href}
               onClick={toggleMenu}
               className={
-                pathname === href
+                isActive(pathname, href)
                   ? "underline decoration-emn-green decoration-4"
                   : ""
               }

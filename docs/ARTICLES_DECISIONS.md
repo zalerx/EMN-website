@@ -1,6 +1,38 @@
 # Articles feature — decision log
 
-(Handover summary is added at the top when the build finishes.)
+## Handover (written 2026-07-19, end of unattended session)
+
+**What got finished.** All four phases, each as one commit on `feat/articles`:
+
+1. `articles phase 1` — typography/CSS-variable fix, `emn-green` standardisation, migration, types, Supabase clients, `require-committee`, session role, `.env.example`
+2. `articles phase 2` — `/articles` index (search/tags/pagination), `/articles/[slug]` reader (markdown + PDF, draft preview, prev/next), loading/error/not-found, fixtures
+3. `articles phase 3` — server actions, admin dashboard, drag-and-drop signed-URL upload with progress, admin table (publish/edit/delete)
+4. `articles phase 4` — Header/Footer nav, `docs/ARTICLES.md`, this handover
+
+`npm run build` and `npm run lint` both pass clean (build log note: one transient "socket hang up" during compilation that Next auto-retried; not related to this code). Nothing was left broken. Two pre-existing uncommitted items were on `main` before this session and were deliberately left out of every commit: a modified `app/about/page.tsx` and an untracked file named `".nvmrc 2"` (looks like a Finder duplicate — probably safe to delete, but that's your call).
+
+**What needs a human before merge:**
+
+- Run `supabase/migrations/20260718000000_articles.sql` on the dev project, verify, then on prod (creates table + RLS + `members.role` + private bucket).
+- Add `NEXT_PUBLIC_SUPABASE_ANON_KEY` to Vercel — the only new env var; public reads fail without it.
+- Set the first committee member: `update public.members set role = 'admin' where email = '…';`
+- Optionally seed dev with `supabase/fixtures/` (upload the two files to the bucket first — paths are in the seed SQL's header comment).
+- Visual QA: the font fix means Candu now *actually renders* for the first time — every heading on the site will look different from what's deployed. That's the bug being fixed, but eyeball it.
+
+**What to review first (least-certain judgement calls):**
+
+1. `app/components/articles/upload-form.tsx` — the raw XHR PUT to the signed upload URL (see the 2026-07-19 decision entry; one-line fallback documented there).
+2. `tailwind.config.ts` — `emn-green` value change to `#6cbe45` shifts existing pages' green by a hair; revert to `#6ebf46` if the club prefers the deployed colour over the logo colour.
+3. `app/articles/[slug]/page.tsx` — the conditional-session ISR/draft-preview interplay.
+
+**What's untested (no live Supabase credentials were used):**
+
+- The entire upload path against real Storage (signed URL PUT, bucket behaviour, 25 MB boundary).
+- RLS behaviour of the new policies; the `members.role` alter against the real table shape.
+- Magic-link sign-in with the modified session callback (code path unchanged except one extra selected column, but still).
+- Signed-URL expiry vs ISR in production traffic.
+
+**Anything blocked:** nothing. No permission denial occurred during the session; deny rules (`.env.local` reads, `supabase db push/link`, `vercel`) were configured and never contested.
 
 ---
 

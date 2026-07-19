@@ -22,6 +22,7 @@ export default function Footer() {
         <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[15px] text-black md:w-[497px] md:justify-between">
           <Link href="/about">About Us</Link>
           <Link href="/events">Events</Link>
+          <Link href="/articles">Articles</Link>
           <Link href="/resources">Resources</Link>
           <Link href="#">Tradle</Link>
           <Link href="/sponsors">Sponsors</Link>
