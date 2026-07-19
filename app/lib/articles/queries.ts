@@ -1,29 +1,12 @@
 import "server-only";
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { getSupabaseAnon } from "@/app/lib/supabase-client";
 import { supabaseAdmin } from "@/app/lib/supabase-server";
 import type { Article, ArticleListItem } from "@/types/article";
 
 export const ARTICLES_PER_PAGE = 12;
 
 // Public reads use the anon key so RLS (published-only) stays in the loop
-// even if a query here is ever written too loosely. Created lazily so a
-// missing env var fails at request time with a clear message, not at import.
-let anon: SupabaseClient | null = null;
-function supabaseAnonServer(): SupabaseClient {
-  if (!anon) {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    if (!url || !key) {
-      throw new Error(
-        "Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY"
-      );
-    }
-    anon = createClient(url, key, {
-      auth: { persistSession: false, autoRefreshToken: false },
-    });
-  }
-  return anon;
-}
+// even if a query here is ever written too loosely.
 
 const LIST_COLUMNS =
   "id, slug, title, subtitle, author, summary, tags, cover_path, source_type, storage_path, reading_minutes, status, published_at, created_at, updated_at, created_by";
@@ -49,7 +32,7 @@ export async function listPublishedArticles({
   page?: number;
 }): Promise<PublishedArticlesPage> {
   const from = (page - 1) * ARTICLES_PER_PAGE;
-  let request = supabaseAnonServer()
+  let request = getSupabaseAnon()
     .from("articles")
     .select(LIST_COLUMNS, { count: "exact" })
     .eq("status", "published")
@@ -72,7 +55,7 @@ export async function listPublishedArticles({
 export async function getPublishedArticleBySlug(
   slug: string
 ): Promise<Article | null> {
-  const { data, error } = await supabaseAnonServer()
+  const { data, error } = await getSupabaseAnon()
     .from("articles")
     .select("*")
     .eq("status", "published")
@@ -84,7 +67,7 @@ export async function getPublishedArticleBySlug(
 
 // All published tags, deduplicated, for the index filter bar.
 export async function listPublishedTags(): Promise<string[]> {
-  const { data, error } = await supabaseAnonServer()
+  const { data, error } = await getSupabaseAnon()
     .from("articles")
     .select("tags")
     .eq("status", "published");
@@ -99,7 +82,7 @@ export async function listPublishedTags(): Promise<string[]> {
 export async function getAdjacentArticles(
   publishedAt: string
 ): Promise<{ prev: ArticleListItem | null; next: ArticleListItem | null }> {
-  const client = supabaseAnonServer();
+  const client = getSupabaseAnon();
   const [prevRes, nextRes] = await Promise.all([
     client
       .from("articles")

@@ -35,3 +35,23 @@ The index search uses `.or("title.ilike.%q%,summary.ilike.%q%")`. PostgREST's `o
 ## 2026-07-18 — `updated_at` maintained by a trigger
 
 Added `set_articles_updated_at` trigger rather than trusting every future code path to remember to set `updated_at`. Cheap, standard, and keeps the column meaningful for the admin table's ordering.
+
+## 2026-07-19 — Upload uses raw XHR PUT to the signed URL, not `uploadToSignedUrl`
+
+The brief specifies `uploadToSignedUrl(path, token, file)` and also demands "real upload progress". Those conflict: supabase-js uses fetch, which has no upload-progress events. The form instead does an `XMLHttpRequest` PUT of the raw file body (with `Content-Type`) straight to the `signedUrl` returned by `createSignedUploadUrl` — the same endpoint `uploadToSignedUrl` targets, and the pattern Supabase's own docs show with curl. Consequence: no browser Supabase client is needed at all; `app/lib/supabase-client.ts` remains as the lazy anon client used by server-side public reads. **Untested against live storage** — if the binary PUT is rejected, swap the `putWithProgress` call for `getSupabaseAnon().storage.from("articles").uploadToSignedUrl(...)` and lose granular progress.
+
+## 2026-07-19 — Frontmatter parsed server-side via an `extractFrontmatter` action
+
+The brief has the client parse frontmatter to prefill the form, but `gray-matter` drags Buffer/js-yaml into the client bundle and Next no longer polyfills Buffer. Prefill instead calls a small committee-gated server action with the file text; `createArticle` re-parses the raw text itself (never trusting client-supplied metadata to match the file) and stores the frontmatter-stripped body in `content_md`.
+
+## 2026-07-19 — Draft preview stays on the public slug without breaking ISR
+
+`/articles/[slug]` only calls `getServerSession` when the published lookup misses. Published pages therefore never touch cookies and stay ISR-cacheable; unknown/draft slugs render dynamically per request, which is what a preview wants. Verified reasoning, not verified behaviour — flagged in "untested".
+
+## 2026-07-19 — Deletion removes storage objects best-effort, before the row
+
+`deleteArticle` removes `storage_path`/`cover_path` objects first and logs (but does not abort on) storage failures: an orphaned file is invisible and recoverable, an article row pointing at a deleted file renders a broken page. No soft delete — the confirmation step in the table is the guard; committee can re-upload.
+
+## 2026-07-19 — Slug freeze rule
+
+Slug is editable while `status = 'draft'` AND the article has never been published (`published_at` null). Once published (even if later unpublished), the slug is frozen server-side in `updateArticle` — shared URLs must not break. Unpublish keeps the original `published_at` so republishing doesn't reshuffle ordering.
