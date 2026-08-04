@@ -10,7 +10,6 @@ import Button from "@/app/components/button";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About Us" },
   { href: "/events", label: "Events" },
   { href: "/sponsors", label: "Sponsors" },
 ];

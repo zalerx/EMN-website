@@ -349,7 +349,7 @@ export default function EmergingMarketsSection({ className }: { className?: stri
       </h2>
 
       <div className="w-full max-w-[860px] space-y-3.5 text-center">
-        <p className="text-base font-semibold leading-relaxed text-emn-offwhite/90">
+        <p className="text-lg leading-relaxed text-emn-offwhite/90 md:text-description">
           Emerging markets are economies in transition — countries like{" "}
           <strong className="font-bold text-emn-green">
             India, Brazil, Indonesia and Saudi Arabia
@@ -358,7 +358,7 @@ export default function EmergingMarketsSection({ className }: { className?: stri
           haven&apos;t yet reached developed-market status. They combine fast growth and young
           populations with higher volatility and evolving institutions.
         </p>
-        <p className="text-base font-semibold leading-relaxed text-emn-offwhite/90">
+        <p className="text-lg leading-relaxed text-emn-offwhite/90 md:text-description">
           There is no single official list: index providers like{" "}
           <strong className="font-bold text-emn-green">MSCI</strong> classify markets by size,
           liquidity and accessibility. The map and chart below use the 24 countries in the MSCI
@@ -371,7 +371,7 @@ export default function EmergingMarketsSection({ className }: { className?: stri
         <div>
           <h3 className="font-candu text-2xl uppercase md:text-[28px]">The emerging markets map</h3>
           <p className="mb-4 mt-1.5 text-[13px] text-emn-offwhite/65">
-            MSCI EM Index countries in EMN green — hover a country for its live stats (World Bank,
+            MSCI EM Index countries in light green — hover a country for its live stats (World Bank,
             latest year available).
           </p>
           <div ref={mapWrapRef} className="relative rounded-2xl bg-[#123c21] p-2.5">

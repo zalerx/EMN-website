@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 import { cn } from "@/app/lib/utils";
-import Button from "./button";
 
 function Leaf({
   rotation = 0,
@@ -88,16 +87,16 @@ export default function AboutSection({ className }: { className?: string }) {
       </div>
 
       <div className="flex max-w-[896px] flex-col gap-4 text-center md:text-left">
-        <p className="text-base font-semibold text-emn-offwhite">
+        <p className="text-lg text-emn-offwhite md:text-description">
           EMN is Australia&apos;s inaugural student society dedicated to emerging
           markets.
         </p>
-        <p className="text-base font-semibold text-emn-offwhite/85">
+        <p className="text-lg text-emn-offwhite/85 md:text-description">
           We connect students interested in finance, economics and politics with
           the regions driving the next phase of global growth and geopolitical
           influence.
         </p>
-        <p className="text-base font-semibold text-emn-offwhite/85">
+        <p className="text-lg text-emn-offwhite/85 md:text-description">
           From industry evenings and case competitions to in-house research, and
           social events, EMN gives you a place to connect with industry
           professionals, build commercial acumen, and gain a global perspective
@@ -110,17 +109,6 @@ export default function AboutSection({ className }: { className?: string }) {
         <Stat value="1K+" label="Members" shape="seed" />
         <Stat value="37+" label="Nationalities" shape="leaf-right" />
       </div>
-
-      <Button
-        href="/about"
-        className="text-base font-black md:text-xl"
-        innerClassName="flex h-12 w-[220px] max-w-full items-center justify-center px-4 md:h-[55px] md:w-[260px]"
-        color="emn-black"
-        outlineColor="emn-offwhite"
-        textColor="emn-offwhite"
-      >
-        Learn more
-      </Button>
     </section>
   );
 }
