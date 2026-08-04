@@ -87,12 +87,23 @@ export default function AboutSection({ className }: { className?: string }) {
         />
       </div>
 
-      <p className="max-w-[896px] text-center text-base text-emn-offwhite md:text-left md:text-description">
-        We are Australia&apos;s inaugural student society focused on emerging
-        markets, connecting students with the financial, economic, and political
-        forces shaping the developing world through educational and professional
-        initiatives.
-      </p>
+      <div className="flex max-w-[896px] flex-col gap-4 text-center md:text-left">
+        <p className="text-base font-semibold text-emn-offwhite">
+          EMN is Australia&apos;s inaugural student society dedicated to emerging
+          markets.
+        </p>
+        <p className="text-base font-semibold text-emn-offwhite/85">
+          We connect students interested in finance, economics and politics with
+          the regions driving the next phase of global growth and geopolitical
+          influence.
+        </p>
+        <p className="text-base font-semibold text-emn-offwhite/85">
+          From industry evenings and case competitions to in-house research, and
+          social events, EMN gives you a place to connect with industry
+          professionals, build commercial acumen, and gain a global perspective
+          from day one.
+        </p>
+      </div>
 
       <div className="flex w-full items-center justify-center gap-2 sm:gap-6 md:gap-10">
         <Stat value="8+" label="Events/ Year" shape="leaf-left" />

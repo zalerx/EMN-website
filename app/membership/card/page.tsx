@@ -5,20 +5,6 @@ import { authOptions } from "@/app/lib/auth";
 import { signStudentId } from "@/app/lib/hmac";
 import { generateStyledQR } from "@/app/lib/qr-styled";
 
-// Sponsor data — add real logos here as they come in.
-// shape: "seed" (circle) | "leaf" (rounded-tl + rounded-br)
-const SPONSORS: { name: string; logo?: string; shape: "seed" | "leaf" }[] = [
-  { name: "Karomi Cafe", logo: undefined, shape: "seed" },
-  { name: "Sponsor 2", logo: undefined, shape: "leaf" },
-  { name: "Sponsor 3", logo: undefined, shape: "seed" },
-  { name: "Sponsor 4", logo: undefined, shape: "leaf" },
-];
-
-const SHAPE_CLASSES = {
-  seed: "rounded-full",
-  leaf: "rounded-tl-[50%] rounded-br-[50%] rounded-tr-[10%] rounded-bl-[10%]",
-} as const;
-
 export default async function CardPage() {
   // DEV ONLY — bypass auth to preview styling without signing in.
   // Uncomment the two lines below (and comment out the strict session check)
@@ -125,38 +111,6 @@ export default async function CardPage() {
       </a>
       */}
 
-      {/* Participating Sponsors */}
-      <div className="relative mt-20 w-full max-w-[916px]">
-        {/* Leaf heading badge */}
-        <div className="absolute -top-[34px] left-6 md:left-[46px] z-10 w-fit rounded-br-pill rounded-tl-pill border-4 border-emn-black bg-emn-offwhite px-5 pt-[12px] pb-[6px] md:px-[30px]">
-          <span className="font-candu text-mheading md:text-heading uppercase text-emn-black">
-            Participating<br className="md:hidden" /> sponsors
-          </span>
-        </div>
-
-        {/* Sponsors grid */}
-        <div className="flex flex-wrap items-center justify-center gap-6 rounded-[16px] border-4 border-emn-black px-10 pb-10 pt-[59px] md:justify-start md:gap-[25px]">
-          {SPONSORS.map((sponsor, i) => (
-            <div
-              key={i}
-              className={`flex size-[140px] items-center justify-center overflow-hidden bg-white md:size-[183px] ${SHAPE_CLASSES[sponsor.shape]}`}
-            >
-              {sponsor.logo ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={sponsor.logo}
-                  alt={sponsor.name}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <span className="text-xs font-semibold text-emn-black/30">
-                  {sponsor.name}
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
     </main>
   );
 }

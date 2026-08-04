@@ -8,6 +8,7 @@ import ScrollVelocity from "./components/scroll-velocity";
 import { AnimationProvider } from "./components/animation-toggle";
 import { ShapeRow } from "./components/hero-shapes";
 import AboutSection from "./components/about-section";
+import EmergingMarketsSection from "./components/emerging-markets-section";
 
 export default function Home() {
   return (
@@ -113,6 +114,9 @@ export default function Home() {
 
         {/* About */}
         <AboutSection />
+
+        {/* What are emerging markets */}
+        <EmergingMarketsSection />
 
         {/* Socials */}
         <section className="flex w-full flex-col items-center gap-8 md:gap-[29px]">
