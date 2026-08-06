@@ -44,7 +44,7 @@ function Stat({
   shape: StatShape;
 }) {
   return (
-    <div className="relative flex aspect-square w-[120px] shrink-0 items-center justify-center text-emn-offwhite sm:w-[180px] md:w-[260px]">
+    <div className="relative flex aspect-square w-full min-w-0 max-w-[120px] items-center justify-center text-emn-offwhite [container-type:inline-size] sm:max-w-[180px] md:max-w-[260px]">
       {shape === "leaf-left" && (
         <Leaf rotation={-90} className="absolute inset-0 h-full w-full" />
       )}
@@ -53,10 +53,8 @@ function Stat({
       )}
       {shape === "seed" && <Seed className="absolute inset-0 h-full w-full" />}
       <div className="relative flex flex-col items-center gap-1 text-center font-candu uppercase text-emn-black md:gap-2">
-        <span className="text-[40px] leading-none sm:text-[64px] md:text-[96px]">
-          {value}
-        </span>
-        <span className="text-[10px] leading-none sm:text-sm md:text-[24px]">
+        <span className="text-[37cqw] leading-none">{value}</span>
+        <span className="whitespace-nowrap text-[9cqw] leading-none">
           {label}
         </span>
       </div>

@@ -9,6 +9,7 @@ import { AnimationProvider } from "./components/animation-toggle";
 import { ShapeRow } from "./components/hero-shapes";
 import AboutSection from "./components/about-section";
 import EmergingMarketsSection from "./components/emerging-markets-section";
+import InstagramReels from "./components/instagram-reels";
 
 export default function Home() {
   return (
@@ -119,29 +120,46 @@ export default function Home() {
         <EmergingMarketsSection />
 
         {/* Socials */}
-        <section className="flex w-full flex-col items-center gap-8 md:gap-[29px]">
-          <h2 className="font-candu text-[56px] uppercase text-emn-black md:text-title">
-            SOCIALS
-          </h2>
+        <section className="flex w-full max-w-[1190px] flex-col items-center gap-8 md:gap-10">
+          <div className="flex flex-col items-center gap-4 md:gap-5">
+            <h2 className="font-candu text-[56px] uppercase text-emn-black md:text-title">
+              SOCIALS
+            </h2>
+            <p className="max-w-[680px] text-center text-lg text-emn-black/70 md:text-description">
+              Catch our latest events, market commentary and highlights on our
+              social media.
+            </p>
+          </div>
+
+          {/* Latest reels — pulled from Instagram (see INSTAGRAM.md for setup). */}
+          <InstagramReels />
+
+          {/* Follow us across platforms */}
           <div className="flex items-center gap-8">
             <Link
               href="https://www.instagram.com/emnunimelb/"
               aria-label="Instagram"
-              className="text-emn-black hover:text-emn-green"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emn-black transition-colors hover:text-emn-green"
             >
               <Instagram className="h-10 w-10" />
             </Link>
             <Link
               href="https://www.facebook.com/emergingmarketsnetwork"
               aria-label="Facebook"
-              className="text-emn-black hover:text-emn-green"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emn-black transition-colors hover:text-emn-green"
             >
               <Facebook className="h-10 w-10" />
             </Link>
             <Link
               href="https://www.linkedin.com/company/emnunimelb/"
               aria-label="LinkedIn"
-              className="text-emn-black hover:text-emn-green"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emn-black transition-colors hover:text-emn-green"
             >
               <Linkedin className="h-10 w-10" />
             </Link>
