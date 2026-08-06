@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env.local)",
+      "Read(./.env.*.local)",
+      "Bash(supabase db push:*)",
+      "Bash(supabase link:*)",
+      "Bash(vercel:*)"
+    ]
+  }
+}

@@ -20,7 +20,6 @@ export default function Footer() {
       <div className="flex w-full flex-col items-center gap-8 md:flex-row md:items-center md:justify-between md:gap-10">
         {/* Internal links */}
         <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[15px] text-black md:w-[497px] md:justify-between">
-          <Link href="/about">About Us</Link>
           <Link href="/events">Events</Link>
           <Link href="/articles">Research</Link>
           <Link href="/resources">Resources</Link>
