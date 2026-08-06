@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Search } from "lucide-react";
-import Container from "@/app/components/container";
 import ArticleGrid from "@/app/components/articles/article-grid";
+import TheNumbers from "@/app/components/articles/the-numbers";
+import { getCommitteeSession } from "@/app/lib/require-committee";
 import {
   ARTICLES_PER_PAGE,
   getSignedFileUrl,
@@ -12,9 +13,9 @@ import {
 import { cn } from "@/app/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Articles | The Emerging Markets Network",
+  title: "Research | The Emerging Markets Network",
   description:
-    "Research, analysis and commentary on emerging markets from the EMN community.",
+    "In-house research and commentary from the EMN committee — on the economies, markets and politics shaping the emerging world.",
 };
 
 function pageHref(params: { q?: string; tag?: string; page?: number }) {
@@ -26,7 +27,16 @@ function pageHref(params: { q?: string; tag?: string; page?: number }) {
   return qs ? `/articles?${qs}` : "/articles";
 }
 
-export default async function ArticlesPage({
+function tagPill(active: boolean) {
+  return cn(
+    "inline-block rounded-[18px] border-2 border-emn-green-dark px-4 py-1.5 text-[13px] font-bold uppercase tracking-[0.02em] transition-colors",
+    active
+      ? "bg-emn-green-dark text-emn-offwhite"
+      : "bg-transparent text-emn-green-dark hover:bg-emn-green/15"
+  );
+}
+
+export default async function ResearchPage({
   searchParams,
 }: {
   searchParams: Promise<{ q?: string; tag?: string; page?: string }>;
@@ -36,9 +46,10 @@ export default async function ArticlesPage({
   const tag = params.tag?.trim() || undefined;
   const page = Math.max(1, Number(params.page) || 1);
 
-  const [{ articles, total }, tags] = await Promise.all([
+  const [{ articles, total }, tags, committee] = await Promise.all([
     listPublishedArticles({ query: q, tag, page }),
     listPublishedTags(),
+    getCommitteeSession(),
   ]);
 
   const coverUrls: Record<string, string | null> = {};
@@ -54,95 +65,110 @@ export default async function ArticlesPage({
   const isFiltered = Boolean(q || tag);
 
   return (
-    <div className="min-h-screen bg-background p-3 md:p-8">
-      <Container className="max-w-[1236px]">
-        <h1 className="mb-6 font-candu text-5xl leading-extra-tight tracking-tight text-[#231f20] md:text-[5rem]">
-          ARTICLES
+    <main className="px-3 pb-16 md:px-[18px]">
+      {/* Page head */}
+      <section className="mx-auto flex max-w-[720px] flex-col items-center gap-5 px-3 pt-10 text-center md:pt-16">
+        <h1 className="font-candu text-6xl uppercase leading-[0.9] text-emn-green-dark md:text-8xl lg:text-[120px]">
+          Research
         </h1>
-        <p className="mb-8 max-w-[820px] font-medium text-foreground/80 md:text-xl">
-          Research, analysis and commentary on the emerging world, written by
-          the EMN community.
+        <p className="text-base font-medium text-emn-black/85 md:text-xl">
+          In-house research and commentary from the EMN committee — on the
+          economies, markets and politics shaping the emerging world.
         </p>
+      </section>
+
+      {/* The Numbers */}
+      <div className="mx-auto mt-16 max-w-[1236px] px-3 md:px-[18px]">
+        <TheNumbers />
+      </div>
+
+      {/* Articles */}
+      <div className="mx-auto mt-16 max-w-[1236px] px-3 md:px-[18px]">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <h2 className="font-candu text-3xl uppercase leading-none text-emn-green-dark md:text-[44px]">
+            Articles
+          </h2>
+          {committee && (
+            <Link
+              href="/articles/admin"
+              className="inline-flex items-center rounded-[24px] bg-emn-green-dark px-6 py-2.5 text-sm font-bold text-emn-offwhite transition-opacity hover:opacity-90"
+            >
+              Committee admin →
+            </Link>
+          )}
+        </div>
 
         {/* Search + tag filter — plain GET form, filtering happens server-side */}
-        <form action="/articles" method="get" className="mb-6">
-          {tag && <input type="hidden" name="tag" value={tag} />}
-          <label htmlFor="article-search" className="sr-only">
-            Search articles
-          </label>
-          <div className="relative max-w-[480px]">
-            <Search
-              className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-emn-black/50"
-              aria-hidden
-            />
-            <input
-              id="article-search"
-              type="search"
-              name="q"
-              defaultValue={q ?? ""}
-              placeholder="Search by title or summary"
-              className="h-12 w-full rounded-full border-2 border-black bg-emn-offwhite pl-12 pr-4 text-base text-black placeholder:text-black/50 focus:outline-none focus:ring-2 focus:ring-emn-green"
-            />
-          </div>
-        </form>
+        <div className="mt-6 flex flex-col gap-4">
+          <form action="/articles" method="get">
+            {tag && <input type="hidden" name="tag" value={tag} />}
+            <label htmlFor="article-search" className="sr-only">
+              Search articles
+            </label>
+            <div className="relative w-full max-w-[420px]">
+              <Search
+                className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-emn-green-dark"
+                aria-hidden
+              />
+              <input
+                id="article-search"
+                type="search"
+                name="q"
+                defaultValue={q ?? ""}
+                placeholder="Search articles…"
+                className="h-11 w-full rounded-[22px] border-none bg-white pl-11 pr-4 text-[15px] text-emn-black shadow-[1px_4px_14px_rgba(0,0,0,0.08)] transition-shadow placeholder:text-emn-black/50 focus:shadow-[1px_4px_14px_rgba(0,0,0,0.14)] focus:outline-none"
+              />
+            </div>
+          </form>
 
-        {tags.length > 0 && (
-          <nav aria-label="Filter by tag" className="mb-10">
-            <ul className="flex flex-wrap gap-2">
-              <li>
-                <Link
-                  href={pageHref({ q })}
-                  className={cn(
-                    "inline-block rounded-full border-2 border-black px-4 py-1.5 text-sm font-bold transition-colors",
-                    !tag
-                      ? "bg-emn-black text-white"
-                      : "bg-white text-emn-black hover:bg-emn-offwhite"
-                  )}
-                >
-                  All
-                </Link>
-              </li>
-              {tags.map((t) => (
-                <li key={t}>
-                  <Link
-                    href={pageHref({ q, tag: t === tag ? undefined : t })}
-                    className={cn(
-                      "inline-block rounded-full border-2 border-black px-4 py-1.5 text-sm font-bold transition-colors",
-                      t === tag
-                        ? "bg-emn-green text-white"
-                        : "bg-white text-emn-black hover:bg-emn-offwhite"
-                    )}
-                  >
-                    {t}
+          {tags.length > 0 && (
+            <nav aria-label="Filter by tag">
+              <ul className="flex flex-wrap gap-2">
+                <li>
+                  <Link href={pageHref({ q })} className={tagPill(!tag)}>
+                    All
                   </Link>
                 </li>
-              ))}
-            </ul>
-          </nav>
-        )}
+                {tags.map((t) => (
+                  <li key={t}>
+                    <Link
+                      href={pageHref({ q, tag: t === tag ? undefined : t })}
+                      className={tagPill(t === tag)}
+                    >
+                      {t}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+        </div>
 
-        {articles.length > 0 ? (
-          <ArticleGrid articles={articles} coverUrls={coverUrls} />
-        ) : (
-          <div className="flex flex-col items-center gap-4 rounded-[16px] border-2 border-dashed border-emn-black/30 px-6 py-16 text-center">
-            <p className="font-candu text-3xl uppercase text-emn-black">
-              {isFiltered ? "No matches" : "Nothing here yet"}
-            </p>
-            <p className="max-w-[480px] text-base text-emn-black/70">
-              {isFiltered
-                ? "No articles match that search. Try a different term or clear the filters."
-                : "The committee is busy writing. Check back soon — or follow our socials for the latest."}
-            </p>
-            {isFiltered && (
-              <Link
-                href="/articles"
-                className="font-bold text-emn-green-dark underline decoration-emn-green decoration-2 underline-offset-4"
-              >
-                Clear filters
-              </Link>
-            )}
-          </div>
-        )}
+        {/* Grid */}
+        <div className="mt-12">
+          {articles.length > 0 ? (
+            <ArticleGrid articles={articles} coverUrls={coverUrls} />
+          ) : (
+            <div className="flex flex-col items-center gap-4 rounded-[18px] border-2 border-dashed border-emn-green-dark/30 px-6 py-16 text-center">
+              <p className="font-candu text-3xl uppercase text-emn-green-dark">
+                {isFiltered ? "No matches" : "Nothing here yet"}
+              </p>
+              <p className="max-w-[480px] text-base text-emn-black/70">
+                {isFiltered
+                  ? "No articles match that search. Try a different term or clear the filters."
+                  : "The committee is busy writing. Check back soon — or follow our socials for the latest."}
+              </p>
+              {isFiltered && (
+                <Link
+                  href="/articles"
+                  className="font-bold text-emn-green-dark underline decoration-emn-green decoration-2 underline-offset-4"
+                >
+                  Clear filters
+                </Link>
+              )}
+            </div>
+          )}
+        </div>
 
         {totalPages > 1 && (
           <nav
@@ -174,7 +200,28 @@ export default async function ArticlesPage({
             )}
           </nav>
         )}
-      </Container>
-    </div>
+      </div>
+
+      {/* Newsletter CTA */}
+      <div className="mx-auto mt-16 max-w-[1236px] px-3 md:px-[18px]">
+        <section className="flex flex-col items-start justify-between gap-8 rounded-[30px] bg-emn-green-dark px-8 py-10 text-emn-offwhite md:flex-row md:items-center md:px-[60px] md:py-14">
+          <div>
+            <h2 className="font-candu text-3xl uppercase leading-[0.95] md:text-[44px]">
+              EMN Newsletter
+            </h2>
+            <p className="mt-3 max-w-[620px] text-base text-emn-offwhite/85 md:text-lg">
+              Keep up to date with the latest economic, financial, and political
+              headlines through our EMN Newsletter.
+            </p>
+          </div>
+          <a
+            href="#newsletter"
+            className="inline-flex h-[55px] shrink-0 items-center justify-center rounded-[28px] bg-emn-green px-9 text-xl font-black text-white transition-opacity hover:opacity-90"
+          >
+            Subscribe
+          </a>
+        </section>
+      </div>
+    </main>
   );
 }

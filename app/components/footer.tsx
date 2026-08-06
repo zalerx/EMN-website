@@ -22,14 +22,17 @@ export default function Footer() {
         <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[15px] text-black md:w-[497px] md:justify-between">
           <Link href="/about">About Us</Link>
           <Link href="/events">Events</Link>
-          <Link href="/articles">Articles</Link>
+          <Link href="/articles">Research</Link>
           <Link href="/resources">Resources</Link>
           <Link href="#">Tradle</Link>
           <Link href="/sponsors">Sponsors</Link>
         </nav>
 
         {/* Newsletter form */}
-        <form className="flex w-full flex-col gap-1 md:w-[375px]">
+        <form
+          id="newsletter"
+          className="flex w-full scroll-mt-24 flex-col gap-1 md:w-[375px]"
+        >
           <label className="text-[13px] font-bold text-black">
             Sign up to our newsletter:
           </label>

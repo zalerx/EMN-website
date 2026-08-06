@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FileText, Newspaper } from "lucide-react";
 import type { ArticleListItem } from "@/types/article";
 import { formatDate } from "@/app/lib/utils";
 
@@ -37,9 +36,14 @@ export default function ArticleCard({
   return (
     <Link
       href={`/articles/${article.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-[16px] border-2 border-black bg-white transition-transform duration-100 hover:-translate-y-1"
+      className="group relative flex h-full flex-col rounded-[18px] border-4 border-emn-green-dark bg-emn-offwhite transition-transform duration-100 hover:-translate-y-1"
     >
-      <div className="relative aspect-[16/9] w-full overflow-hidden border-b-2 border-black">
+      {/* Protruding kind badge — overlaps the cover's top-left corner. */}
+      <span className="absolute -top-5 left-6 z-10 inline-flex rounded-br-[28px] rounded-tl-[28px] border-4 border-emn-green-dark bg-emn-offwhite px-5 pb-1 pt-2 font-candu text-lg uppercase leading-none text-emn-green-dark">
+        {isPdf ? "PDF" : "Article"}
+      </span>
+
+      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-t-[14px]">
         {coverUrl ? (
           <Image
             src={coverUrl}
@@ -52,49 +56,38 @@ export default function ArticleCard({
         ) : (
           <CoverFallback title={article.title} />
         )}
-        <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full border-2 border-black bg-white px-3 py-1 text-xs font-bold uppercase text-emn-black">
-          {isPdf ? (
-            <FileText className="h-3.5 w-3.5" aria-hidden />
-          ) : (
-            <Newspaper className="h-3.5 w-3.5" aria-hidden />
-          )}
-          {isPdf ? "PDF" : "Article"}
-        </span>
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-5">
-        <h3 className="font-candu text-2xl uppercase leading-extra-tight tracking-tight text-emn-black group-hover:text-emn-green-dark">
+      <div className="flex flex-1 flex-col gap-2.5 p-6">
+        <h3 className="font-candu text-[26px] uppercase leading-none tracking-tight text-emn-green-dark">
           {article.title}
         </h3>
+        <p className="text-xs font-bold uppercase tracking-[0.08em] text-emn-black/55">
+          {article.author}
+          {" · "}
+          {article.published_at ? formatDate(article.published_at) : "Draft"}
+          {article.reading_minutes ? ` · ${article.reading_minutes} min` : ""}
+        </p>
         {article.summary && (
-          <p className="line-clamp-3 text-sm text-emn-black/70">
+          <p className="line-clamp-3 flex-1 text-sm leading-relaxed text-emn-black/80">
             {article.summary}
           </p>
         )}
-        <div className="mt-auto flex flex-col gap-3">
-          <p className="text-sm font-semibold text-emn-black">
-            {article.author}
-            <span className="font-normal text-emn-black/60">
-              {" · "}
-              {article.published_at ? formatDate(article.published_at) : "Draft"}
-              {article.reading_minutes
-                ? ` · ${article.reading_minutes} min read`
-                : ""}
-            </span>
-          </p>
-          {article.tags.length > 0 && (
-            <ul className="flex flex-wrap gap-2">
-              {article.tags.map((tag) => (
-                <li
-                  key={tag}
-                  className="rounded-full bg-emn-green/15 px-3 py-1 text-xs font-bold text-emn-green-dark"
-                >
-                  {tag}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        {article.tags.length > 0 && (
+          <ul className="flex flex-wrap gap-1.5">
+            {article.tags.map((tag) => (
+              <li
+                key={tag}
+                className="rounded-xl bg-emn-green/[0.18] px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.04em] text-emn-green-dark"
+              >
+                {tag}
+              </li>
+            ))}
+          </ul>
+        )}
+        <span className="mt-auto pt-1 text-sm font-bold text-emn-green-dark group-hover:underline">
+          Read →
+        </span>
       </div>
     </Link>
   );

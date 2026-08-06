@@ -99,18 +99,21 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={id} className="text-sm font-bold text-emn-black">
+      <label
+        htmlFor={id}
+        className="text-xs font-bold uppercase tracking-[0.12em] text-emn-offwhite"
+      >
         {label}
-        {required && <span className="text-emn-green-dark"> *</span>}
+        {required && <span className="text-emn-green"> *</span>}
       </label>
       {children}
-      {hint && <p className="text-xs text-emn-black/60">{hint}</p>}
+      {hint && <p className="text-xs text-emn-offwhite/70">{hint}</p>}
     </div>
   );
 }
 
 const inputClasses =
-  "w-full rounded-[12px] border-2 border-black bg-white px-4 py-2 text-base text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-emn-green";
+  "w-full rounded-[16px] border-2 border-emn-offwhite bg-emn-offwhite px-4 py-2.5 text-base text-emn-black placeholder:text-emn-black/40 focus:border-emn-green focus:outline-none";
 
 export default function UploadForm() {
   const router = useRouter();
@@ -266,13 +269,13 @@ export default function UploadForm() {
 
   if (phase.kind === "done") {
     return (
-      <div className="flex flex-col items-start gap-4 rounded-[16px] border-2 border-emn-green-dark bg-emn-green/10 p-6">
+      <div className="flex flex-col items-start gap-4 rounded-[16px] bg-emn-offwhite p-6">
         <p className="inline-flex items-center gap-2 font-candu text-2xl uppercase text-emn-green-dark">
           <CheckCircle2 className="h-6 w-6" aria-hidden /> Draft saved
         </p>
         <p className="text-base text-emn-black">
           The article was uploaded as a draft. Preview it, then publish from
-          the table below.
+          the table beside this form.
         </p>
         <div className="flex flex-wrap items-center gap-4">
           <Link
@@ -304,22 +307,22 @@ export default function UploadForm() {
         onDragLeave={() => setDragActive(false)}
         onDrop={onDrop}
         className={cn(
-          "flex flex-col items-center gap-3 rounded-[16px] border-2 border-dashed px-6 py-10 text-center transition-colors",
+          "flex flex-col items-center gap-3 rounded-[18px] border-[3px] border-dashed px-6 py-10 text-center transition-colors",
           dragActive
-            ? "border-emn-green bg-emn-green/10"
-            : "border-emn-black/40 bg-emn-offwhite"
+            ? "border-emn-green bg-emn-green/15"
+            : "border-emn-offwhite/50 bg-emn-offwhite/[0.06] hover:border-emn-green hover:bg-emn-green/[0.12]"
         )}
       >
-        <UploadCloud className="h-10 w-10 text-emn-black/60" aria-hidden />
+        <UploadCloud className="h-10 w-10 text-emn-offwhite/70" aria-hidden />
         {file ? (
-          <p className="inline-flex items-center gap-2 text-base font-semibold text-emn-black">
+          <p className="inline-flex items-center gap-2 text-base font-semibold text-emn-offwhite">
             <FileText className="h-5 w-5" aria-hidden />
             {file.name}
             <button
               type="button"
               onClick={resetForm}
               aria-label="Remove selected file"
-              className="rounded-full p-1 hover:bg-emn-black/10"
+              className="rounded-full p-1 hover:bg-emn-offwhite/15"
               disabled={busy}
             >
               <X className="h-4 w-4" aria-hidden />
@@ -327,13 +330,15 @@ export default function UploadForm() {
           </p>
         ) : (
           <>
-            <p className="text-base font-semibold text-emn-black">
-              Drag a PDF or Markdown file here
+            <p className="font-candu text-xl uppercase text-emn-offwhite">
+              Drop file here
             </p>
-            <p className="text-sm text-emn-black/60">Up to 25 MB</p>
+            <p className="text-sm text-emn-offwhite/70">
+              .md or .pdf — up to 25 MB
+            </p>
           </>
         )}
-        <label className="cursor-pointer font-bold text-emn-green-dark underline decoration-emn-green decoration-2 underline-offset-4 focus-within:ring-2 focus-within:ring-emn-green">
+        <label className="cursor-pointer font-bold text-emn-green underline decoration-emn-green decoration-2 underline-offset-4 focus-within:ring-2 focus-within:ring-emn-green">
           {file ? "Choose a different file" : "or browse for a file"}
           <input
             ref={fileInputRef}
@@ -448,7 +453,7 @@ export default function UploadForm() {
               accept="image/png,image/jpeg,image/webp"
               onChange={onCoverPick}
               disabled={busy}
-              className="text-sm text-emn-black file:mr-3 file:cursor-pointer file:rounded-full file:border-2 file:border-black file:bg-white file:px-4 file:py-1.5 file:text-sm file:font-bold file:text-emn-black"
+              className="text-sm text-emn-offwhite/80 file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-emn-offwhite file:px-4 file:py-1.5 file:text-sm file:font-bold file:text-emn-black"
             />
           </Field>
         </div>
@@ -463,20 +468,20 @@ export default function UploadForm() {
             aria-valuemin={0}
             aria-valuemax={100}
             aria-label="Upload progress"
-            className="h-3 w-full overflow-hidden rounded-full border-2 border-black bg-emn-offwhite"
+            className="h-3 w-full overflow-hidden rounded-full border-2 border-emn-offwhite/40 bg-emn-offwhite/10"
           >
             <div
               className="h-full bg-emn-green transition-[width] duration-200"
               style={{ width: `${phase.percent}%` }}
             />
           </div>
-          <p className="text-sm font-bold text-emn-black">
+          <p className="text-sm font-bold text-emn-offwhite">
             Uploading… {phase.percent}%
           </p>
         </div>
       )}
       {phase.kind === "saving" && (
-        <p className="text-sm font-bold text-emn-black">Saving article…</p>
+        <p className="text-sm font-bold text-emn-offwhite">Saving article…</p>
       )}
       {phase.kind === "error" && (
         <p role="alert" className="rounded-[12px] border-2 border-red-700 bg-red-50 px-4 py-3 text-sm font-bold text-red-700">
@@ -489,7 +494,7 @@ export default function UploadForm() {
           <Button
             className="text-base font-black"
             color="emn-green"
-            outlineColor="emn-green-dark"
+            outlineColor="emn-offwhite"
             textColor="white"
             disabled={busy || !meta.title.trim() || !meta.author.trim()}
           >

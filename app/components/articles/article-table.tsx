@@ -17,7 +17,6 @@ interface EditState {
   author: string;
   summary: string;
   tags: string;
-  slug: string;
 }
 
 function Row({ article }: { article: ArticleListItem }) {
@@ -32,11 +31,9 @@ function Row({ article }: { article: ArticleListItem }) {
     author: article.author,
     summary: article.summary ?? "",
     tags: article.tags.join(", "),
-    slug: article.slug,
   });
 
   const published = article.status === "published";
-  const slugFrozen = published || Boolean(article.published_at);
 
   function run(action: () => Promise<{ ok: boolean } & Record<string, unknown>>) {
     setError(null);
@@ -164,7 +161,6 @@ function Row({ article }: { article: ArticleListItem }) {
                     author: edit.author,
                     summary: edit.summary || undefined,
                     tags: edit.tags.split(",").map((t) => t.trim()).filter(Boolean),
-                    slug: edit.slug || undefined,
                   })
                 );
               }}
@@ -232,19 +228,6 @@ function Row({ article }: { article: ArticleListItem }) {
                   className={inputClasses}
                 />
               </div>
-              <div className="flex flex-col gap-1">
-                <label htmlFor={`slug-${article.id}`} className="text-xs font-bold text-emn-black">
-                  Slug {slugFrozen && "(frozen after publish)"}
-                </label>
-                <input
-                  id={`slug-${article.id}`}
-                  type="text"
-                  value={edit.slug}
-                  disabled={slugFrozen}
-                  onChange={(e) => setEdit({ ...edit, slug: e.target.value })}
-                  className={cn(inputClasses, slugFrozen ? "opacity-50" : "")}
-                />
-              </div>
               <div className="flex items-end">
                 <button
                   type="submit"
@@ -266,15 +249,15 @@ export default function ArticleTable({ articles }: { articles: ArticleListItem[]
   if (articles.length === 0) {
     return (
       <p className="rounded-[16px] border-2 border-dashed border-emn-black/30 px-6 py-10 text-center text-base text-emn-black/70">
-        No articles yet — upload the first one above.
+        No articles yet — upload the first one with the form.
       </p>
     );
   }
   return (
-    <div className="overflow-x-auto rounded-[16px] border-2 border-black">
-      <table className="w-full min-w-[720px] border-collapse text-left">
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-[640px] border-collapse text-left">
         <thead>
-          <tr className="bg-emn-offwhite text-xs font-bold uppercase text-emn-black/70">
+          <tr className="border-b-2 border-emn-black/10 text-xs font-bold uppercase text-emn-black/55">
             <th scope="col" className="px-3 py-3">Article</th>
             <th scope="col" className="px-3 py-3">Type</th>
             <th scope="col" className="px-3 py-3">Status</th>
