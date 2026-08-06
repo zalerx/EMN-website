@@ -50,12 +50,13 @@ export const authOptions: NextAuthOptions = {
       if (!session.user?.email) return session;
       const { data: member } = await supabaseAdmin
         .from("members")
-        .select("id, name")
+        .select("id, name, role")
         .eq("email", session.user.email.toLowerCase())
         .maybeSingle();
       if (member) {
         session.user.studentId = Number(member.id);
         session.user.name = member.name;
+        session.user.role = member.role ?? "member";
       }
       return session;
     },
