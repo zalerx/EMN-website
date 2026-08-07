@@ -57,7 +57,16 @@ function SponsorTile({ sponsor }: { sponsor: Sponsor }) {
   );
 }
 
-export default function SponsorCarousel({ sponsors }: { sponsors: Sponsor[] }) {
+export default function SponsorCarousel({
+  sponsors,
+  // When false, hides the whole header row — the "Our Sponsors / 2026" title
+  // and the prev/next arrows (e.g. on the home page, where the section already
+  // has its own big SPONSORS heading). The strip stays scroll/swipe-navigable.
+  showHeading = true,
+}: {
+  sponsors: Sponsor[];
+  showHeading?: boolean;
+}) {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const scrollCarousel = (dir: number) =>
@@ -67,32 +76,34 @@ export default function SponsorCarousel({ sponsors }: { sponsors: Sponsor[] }) {
 
   return (
     <>
-      <div className="mb-2 flex flex-wrap items-center gap-[18px]">
-        <h2 className="font-candu text-[36px] uppercase leading-none text-emn-green-dark md:text-[44px]">
-          Our Sponsors
-        </h2>
-        <span className="inline-flex items-center rounded-[22px_0_22px_0] bg-emn-green px-[22px] pb-[5px] pt-[11px] font-candu text-[22px] leading-none tracking-[0.04em] text-white">
-          2026
-        </span>
-        <div className="ml-auto flex gap-[10px]">
-          <button
-            type="button"
-            onClick={() => scrollCarousel(-1)}
-            aria-label="Previous sponsors"
-            className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-emn-green-dark text-emn-green-dark transition-colors hover:bg-emn-green-dark hover:text-white"
-          >
-            <ArrowLeft className="h-[18px] w-[18px]" strokeWidth={2.5} />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollCarousel(1)}
-            aria-label="Next sponsors"
-            className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-emn-green-dark text-emn-green-dark transition-colors hover:bg-emn-green-dark hover:text-white"
-          >
-            <ArrowRight className="h-[18px] w-[18px]" strokeWidth={2.5} />
-          </button>
+      {showHeading && (
+        <div className="mb-2 flex flex-wrap items-center gap-[18px]">
+          <h2 className="font-candu text-[36px] uppercase leading-none text-emn-green-dark md:text-[44px]">
+            Our Sponsors
+          </h2>
+          <span className="inline-flex items-center rounded-[22px_0_22px_0] bg-emn-green px-[22px] pb-[5px] pt-[11px] font-candu text-[22px] leading-none tracking-[0.04em] text-white">
+            2026
+          </span>
+          <div className="ml-auto flex gap-[10px]">
+            <button
+              type="button"
+              onClick={() => scrollCarousel(-1)}
+              aria-label="Previous sponsors"
+              className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-emn-green-dark text-emn-green-dark transition-colors hover:bg-emn-green-dark hover:text-white"
+            >
+              <ArrowLeft className="h-[18px] w-[18px]" strokeWidth={2.5} />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollCarousel(1)}
+              aria-label="Next sponsors"
+              className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-emn-green-dark text-emn-green-dark transition-colors hover:bg-emn-green-dark hover:text-white"
+            >
+              <ArrowRight className="h-[18px] w-[18px]" strokeWidth={2.5} />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       <div
         ref={carouselRef}

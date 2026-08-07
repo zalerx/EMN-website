@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/app/lib/utils";
 import Button from "@/app/components/button";
@@ -26,6 +27,8 @@ function isActive(pathname: string, href: string) {
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { status } = useSession();
+  const isAuthed = status === "authenticated";
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
@@ -70,6 +73,33 @@ export default function Header() {
               </Link>
             );
           })}
+
+          {/* Sign in leads to the membership magic-link page; sign out is a
+              direct action. While the session is still loading we fall back to
+              the "Sign in" state (SSR matches, so no hydration mismatch). */}
+          {isAuthed ? (
+            <Button
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className="text-base"
+              innerClassName="px-4 py-[7px]"
+              color="white"
+              outlineColor="emn-black"
+              textColor="emn-black"
+            >
+              Sign out
+            </Button>
+          ) : (
+            <Button
+              href="/membership"
+              className="text-base"
+              innerClassName="px-4 py-[7px]"
+              color="emn-green"
+              outlineColor="emn-green-dark"
+              textColor="white"
+            >
+              Sign in
+            </Button>
+          )}
         </div>
 
         {/* Mobile toggle */}
@@ -105,6 +135,20 @@ export default function Header() {
               {label}
             </Link>
           ))}
+          {isAuthed ? (
+            <button
+              onClick={() => {
+                toggleMenu();
+                signOut({ callbackUrl: "/" });
+              }}
+            >
+              Sign out
+            </button>
+          ) : (
+            <Link href="/membership" onClick={toggleMenu}>
+              Sign in
+            </Link>
+          )}
           <Button
             href="https://umsu.unimelb.edu.au/buddy-up/clubs/clubs-listing/join/7894/"
             onClick={toggleMenu}

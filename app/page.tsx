@@ -10,8 +10,21 @@ import { ShapeRow } from "./components/hero-shapes";
 import AboutSection from "./components/about-section";
 import EmergingMarketsSection from "./components/emerging-markets-section";
 import InstagramReels from "./components/instagram-reels";
+import SponsorCarousel from "./components/sponsors/sponsor-carousel";
+import { listSponsors } from "./lib/sponsors/queries";
+import type { Sponsor } from "@/types/sponsor";
 
-export default function Home() {
+export default async function Home() {
+  // Sponsor list for the carousel. If Supabase isn't configured (no env) the
+  // read throws — fall back to an empty carousel (which shows placeholder
+  // tiles) so the home page still renders.
+  let sponsors: Sponsor[] = [];
+  try {
+    sponsors = await listSponsors();
+  } catch (e) {
+    console.error("[home] sponsors list failed:", e);
+  }
+
   return (
     <AnimationProvider>
       {/* Hero — scrolling seed/leaf shapes behind colored text.
@@ -96,10 +109,8 @@ export default function Home() {
           <h2 className="font-candu text-[56px] uppercase text-emn-black md:text-title">
             SPONSORS
           </h2>
-          <div className="flex w-full max-w-[1117px] flex-col items-center gap-12 rounded-[16px] border-4 border-black p-6 md:p-10">
-            <p className="text-center text-base text-emn-black/70">
-              Sponsor showcase coming soon.
-            </p>
+          <div className="w-full max-w-[1117px]">
+            <SponsorCarousel sponsors={sponsors} showHeading={false} />
           </div>
           <Button
             href="/sponsors"
