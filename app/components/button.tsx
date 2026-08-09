@@ -31,6 +31,10 @@ interface ButtonProps {
   outlineColor?: string;
   /** Text color (defaults to outlineColor). Accepts emn token names or hex values. */
   textColor?: string;
+  /** Text color on hover. Accepts emn token names or hex values. */
+  hoverTextColor?: string;
+  /** When true, the face color and outline color swap on hover. */
+  swapOnHover?: boolean;
   /** Additional classes for the outer wrapper (controls sizing, font, etc.) */
   className?: string;
   /** Additional classes for the inner button face */
@@ -47,6 +51,8 @@ export default function Button({
   color = "emn-offwhite",
   outlineColor = "emn-black",
   textColor,
+  hoverTextColor,
+  swapOnHover,
   className,
   innerClassName,
   children,
@@ -58,27 +64,43 @@ export default function Button({
   const resolvedColor = resolveColor(color);
   const resolvedOutline = resolveColor(outlineColor);
   const resolvedText = resolveColor(textColor ?? outlineColor);
+  const resolvedHoverText = hoverTextColor
+    ? resolveColor(hoverTextColor)
+    : undefined;
 
-  // Shared styling for the outer wrapper — provides the 3D "shadow" via its background
+  // Base color tokens live in inline CSS vars; the active --btn-face / --btn-outline
+  // are derived via classes so a :hover rule can swap them (inline styles can't).
   const outerClasses = cn(
     "group inline-flex cursor-pointer border-none font-bold",
     "rounded-[0.75em] disabled:opacity-50 disabled:pointer-events-none",
+    "[--btn-face:var(--btn-c-face)] [--btn-outline:var(--btn-c-outline)] [--btn-text:var(--btn-c-text)]",
+    "[background:var(--btn-outline)] transition-colors duration-100 ease-in-out",
+    swapOnHover &&
+      "hover:[--btn-face:var(--btn-c-outline)] hover:[--btn-outline:var(--btn-c-face)]",
+    resolvedHoverText && "hover:[--btn-text:var(--btn-c-hover-text)]",
     className
   );
 
   // The inner face of the button — translates on hover/active for the 3D effect
   const innerClasses = cn(
     "block box-border rounded-[inherit] border-2 px-6 py-3",
-    "transition-transform duration-100 ease-in-out",
+    "transition-[transform,background-color,border-color,color] duration-100 ease-in-out",
     // Default: lifted up. Hover: lifted more. Active/click: pushed flat.
     "-translate-y-[0.2em] group-hover:-translate-y-[0.33em] group-active:translate-y-0",
     innerClassName
   );
 
+  const outerStyle = {
+    "--btn-c-face": resolvedColor,
+    "--btn-c-outline": resolvedOutline,
+    "--btn-c-text": resolvedText,
+    ...(resolvedHoverText ? { "--btn-c-hover-text": resolvedHoverText } : {}),
+  } as React.CSSProperties;
+
   const innerStyle: React.CSSProperties = {
-    borderColor: resolvedOutline,
-    backgroundColor: resolvedColor,
-    color: resolvedText,
+    borderColor: "var(--btn-outline)",
+    backgroundColor: "var(--btn-face)",
+    color: "var(--btn-text)",
   };
 
   const face = (
@@ -92,7 +114,7 @@ export default function Button({
       <Link
         href={href}
         className={outerClasses}
-        style={{ background: resolvedOutline }}
+        style={outerStyle}
         onClick={onClick}
         target={target}
         rel={rel}
@@ -105,7 +127,7 @@ export default function Button({
   return (
     <button
       className={outerClasses}
-      style={{ background: resolvedOutline }}
+      style={outerStyle}
       onClick={onClick}
       disabled={disabled}
     >

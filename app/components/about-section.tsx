@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import CountUp from "@/app/components/count-up";
 import { cn } from "@/app/lib/utils";
 
 function Leaf({
@@ -35,11 +36,13 @@ function Seed({ className }: { className?: string }) {
 type StatShape = "leaf-left" | "seed" | "leaf-right";
 
 function Stat({
-  value,
+  to,
+  suffix,
   label,
   shape,
 }: {
-  value: string;
+  to: number;
+  suffix?: string;
   label: string;
   shape: StatShape;
 }) {
@@ -53,7 +56,10 @@ function Stat({
       )}
       {shape === "seed" && <Seed className="absolute inset-0 h-full w-full" />}
       <div className="relative flex flex-col items-center gap-1 text-center font-candu uppercase text-emn-black md:gap-2">
-        <span className="text-[37cqw] leading-none">{value}</span>
+        <span className="text-[37cqw] leading-none">
+          <CountUp from={0} to={to} direction="up" duration={1.5} />
+          {suffix}
+        </span>
         <span className="whitespace-nowrap text-[9cqw] leading-none">
           {label}
         </span>
@@ -103,9 +109,9 @@ export default function AboutSection({ className }: { className?: string }) {
       </div>
 
       <div className="flex w-full items-center justify-center gap-2 sm:gap-6 md:gap-10">
-        <Stat value="8+" label="Events/ Year" shape="leaf-left" />
-        <Stat value="1K+" label="Members" shape="seed" />
-        <Stat value="37+" label="Nationalities" shape="leaf-right" />
+        <Stat to={8} suffix="+" label="Events/ Year" shape="leaf-left" />
+        <Stat to={1} suffix="K+" label="Members" shape="seed" />
+        <Stat to={37} suffix="+" label="Nationalities" shape="leaf-right" />
       </div>
     </section>
   );

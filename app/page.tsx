@@ -1,18 +1,37 @@
 import Link from "next/link";
 import { Instagram, Facebook, Linkedin } from "lucide-react";
 
-import SectionContainer from "./components/section-container";
 import Button from "./components/button";
-import RotatingText from "./components/rotating-text";
-import ScrollVelocity from "./components/scroll-velocity";
+import Hero from "./components/hero";
 import { AnimationProvider } from "./components/animation-toggle";
-import { ShapeRow } from "./components/hero-shapes";
 import AboutSection from "./components/about-section";
 import EmergingMarketsSection from "./components/emerging-markets-section";
 import InstagramReels from "./components/instagram-reels";
 import SponsorCarousel from "./components/sponsors/sponsor-carousel";
 import { listSponsors } from "./lib/sponsors/queries";
 import type { Sponsor } from "@/types/sponsor";
+
+// Photos the hero cross-fades through (grayscale + green tint), in display
+// order. Upload new hero photos to `public/images/hero/` and add their paths
+// here — the cross-fade turns on automatically once there are 2+ entries.
+const HERO_IMAGES = [
+  "/images/hero/group-photo.jpg",
+  "/images/hero/good-candid-group.png",
+  "/images/hero/candid.png",
+  "/images/hero/o-week.JPG",
+  "/images/hero/market-smile-group-pic.JPEG",
+  "/images/hero/panel.png",
+  "/images/hero/pres-group.png",
+  "/images/hero/group2.JPEG",
+  "/images/hero/girls-beach.JPG",
+  "/images/hero/beach-candid.JPG",
+  "/images/hero/star-group.JPG",
+  "/images/hero/group.JPG",
+  "/images/hero/research-group.JPEG",
+  "/images/hero/exec-group.JPG",
+  "/images/hero/ops-group.JPEG",
+  "/images/hero/smores.jpeg",
+];
 
 export default async function Home() {
   // Sponsor list for the carousel. If Supabase isn't configured (no env) the
@@ -27,103 +46,16 @@ export default async function Home() {
 
   return (
     <AnimationProvider>
-      {/* Hero — scrolling seed/leaf shapes behind colored text.
-          Mobile: shapes hidden, h1 falls back to normal flow.
-          Desktop: shapes visible, h1 absolutely overlays them. */}
-      <div className="w-full pt-12 pb-12 md:pt-16">
-        <div className="relative w-full">
-          <div className="hidden text-emn-black md:block">
-            <ScrollVelocity
-              texts={[
-                <ShapeRow key="r1" />,
-                <ShapeRow key="r2" />,
-                <ShapeRow key="r3" />,
-              ]}
-              velocity={30}
-              className="block h-[1em] font-candu text-[64px] md:text-[128px]"
-              scrollerClassName="scroller gap-4 md:gap-8"
-              numCopies={8}
-            />
-          </div>
-          <h1 className="pointer-events-none flex flex-col items-center justify-center font-candu leading-none tracking-tight text-[56px] md:absolute md:inset-0 md:text-[128px]">
-            <span className="block bg-emn-offwhite px-5 text-emn-green">EMERGING</span>
-            <span className="block bg-emn-offwhite px-5 text-emn-green-mid">MARKETS</span>
-            <span className="block bg-emn-offwhite px-5 text-emn-green-dark">NETWORK</span>
-          </h1>
-        </div>
-      </div>
+      <Hero
+        tintColor="#18512d"
+        backgroundImages={HERO_IMAGES}
+        bgCycleSecs={4}
+      />
 
-      <main className="flex flex-col items-center gap-16 px-4 pb-16 md:gap-24 md:px-[18px] md:pb-[21px]">
-        {/* Hero content */}
-        <section className="flex w-full flex-col items-center gap-6 text-center">
-          <p className="flex max-w-[744px] flex-wrap items-center justify-center gap-x-2 text-base font-semibold text-black md:gap-x-3 md:text-3xl">
-            <span>Australia&apos;s inaugural student society focused on the</span>
-            <RotatingText
-              texts={["finance", "economics", "politics"]}
-              mainClassName="px-3 py-1 md:px-4 md:py-2 bg-emn-black text-white overflow-hidden rounded-lg"
-              animatePresenceMode="popLayout"
-              staggerFrom="last"
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "-120%" }}
-              staggerDuration={0.025}
-              splitLevelClassName="overflow-hidden pb-1"
-              transition={{ type: "spring", damping: 20, stiffness: 200 }}
-              rotationInterval={2000}
-            />
-            <span>of the emerging world.</span>
-          </p>
-          <Button
-            href="https://umsu.unimelb.edu.au/buddy-up/clubs/clubs-listing/join/7894/"
-            className="text-base font-black md:text-xl"
-            innerClassName="flex h-12 w-[260px] max-w-full items-center justify-center px-4 md:h-[55px] md:w-[313px]"
-            color="emn-green"
-            outlineColor="emn-green-dark"
-            textColor="white"
-          >
-            Become a Member
-          </Button>
-        </section>
-
-        {/* Events */}
-        <SectionContainer color="green-dark">
-          <h2 className="text-center font-candu text-[56px] uppercase text-emn-offwhite md:text-title">
-            events
-          </h2>
-          <p className="max-w-[820px] text-center text-lg text-emn-offwhite/80 md:text-description">
-            Events showcase coming soon. In the meantime, check out our{" "}
-            <Link
-              href="https://www.instagram.com/emnunimelb/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-bold text-emn-offwhite underline decoration-emn-green decoration-2 underline-offset-4"
-            >
-              Instagram
-            </Link>{" "}
-            for the latest updates.
-          </p>
-        </SectionContainer>
-
-        {/* Sponsors */}
-        <section className="flex w-full max-w-[1190px] flex-col items-center gap-8 md:gap-[29px]">
-          <h2 className="font-candu text-[56px] uppercase text-emn-black md:text-title">
-            SPONSORS
-          </h2>
-          <div className="w-full max-w-[1117px]">
-            <SponsorCarousel sponsors={sponsors} showHeading={false} />
-          </div>
-          <Button
-            href="/sponsors"
-            className="mt-4 text-base font-black md:text-xl"
-            innerClassName="flex h-12 w-[260px] max-w-full items-center justify-center px-4 md:h-[55px] md:w-[313px]"
-            color="emn-black"
-            outlineColor="black"
-            textColor="white"
-          >
-            Become a Sponsor
-          </Button>
-        </section>
-
+      {/* pt matches the inter-section gap (gap-16 / md:gap-24) minus the hero's
+          18px bottom crop inset, so the hero → About gap equals the gap between
+          the other sections. */}
+      <main className="flex flex-col items-center gap-16 px-4 pb-16 pt-[46px] md:gap-24 md:px-[18px] md:pb-[21px] md:pt-[78px]">
         {/* About */}
         <AboutSection />
 
@@ -201,6 +133,26 @@ export default async function Home() {
               Become a Member
             </Button>
           </div>
+        </section>
+
+        {/* Sponsors */}
+        <section className="flex w-full max-w-[1190px] flex-col items-center gap-8 md:gap-[29px]">
+          <h2 className="font-candu text-[56px] uppercase text-emn-black md:text-title">
+            SPONSORS
+          </h2>
+          <div className="w-full max-w-[1117px]">
+            <SponsorCarousel sponsors={sponsors} showHeading={false} />
+          </div>
+          <Button
+            href="/sponsors"
+            className="mt-4 text-base font-black md:text-xl"
+            innerClassName="flex h-12 w-[260px] max-w-full items-center justify-center px-4 md:h-[55px] md:w-[313px]"
+            color="emn-black"
+            outlineColor="black"
+            textColor="white"
+          >
+            Become a Sponsor
+          </Button>
         </section>
       </main>
     </AnimationProvider>

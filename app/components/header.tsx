@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -26,14 +26,63 @@ function isActive(pathname: string, href: string) {
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const { status } = useSession();
   const isAuthed = status === "authenticated";
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+  // On the home page the hero fills the viewport, so the navbar stays hidden on
+  // load and slides in once the visitor starts scrolling (then floats over the
+  // page as a fixed bar). Every other page keeps the navbar in normal flow.
+  const isHome = pathname === "/";
+  useEffect(() => {
+    if (!isHome) {
+      setScrolled(false);
+      return;
+    }
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isHome]);
+
+  const hidden = isHome && !scrolled && !isMenuOpen;
+
+  // Right-aligned sign in / sign out control, shared by desktop layout.
+  const authButton = isAuthed ? (
+    <Button
+      onClick={() => signOut({ callbackUrl: "/" })}
+      className="text-base"
+      innerClassName="px-4 py-[7px]"
+      color="white"
+      outlineColor="emn-black"
+      textColor="emn-black"
+    >
+      Sign out
+    </Button>
+  ) : (
+    <Button
+      href="/membership"
+      className="text-base"
+      innerClassName="px-4 py-[7px]"
+      color="emn-green"
+      outlineColor="emn-green-dark"
+      textColor="white"
+    >
+      Sign in
+    </Button>
+  );
+
   return (
-    <header className="px-3 pt-3 md:px-[18px] md:pt-[21px]">
-      <nav className="mx-auto flex max-w-[1236px] items-center justify-between rounded-header bg-white px-5 py-3 shadow-header md:px-[33px] md:py-[18px]">
+    <header
+      className={cn(
+        "z-50 px-3 pt-3 transition-all duration-300 md:px-[18px] md:pt-[21px]",
+        isHome && "fixed inset-x-0 top-0",
+        hidden && "pointer-events-none -translate-y-full opacity-0"
+      )}
+    >
+      <nav className="relative mx-auto flex max-w-[1236px] items-center justify-between rounded-header bg-white px-5 py-3 shadow-header md:px-[33px] md:py-[18px]">
         <Link href="/" aria-label="EMN home" className="flex items-center">
           <Image
             src="/EMN-logo.svg"
@@ -44,8 +93,9 @@ export default function Header() {
           />
         </Link>
 
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-2 md:flex md:gap-[19px]">
+        {/* Center-aligned nav links (desktop). Absolutely centered so they sit
+            in the middle of the bar regardless of the logo / auth widths. */}
+        <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-2 md:flex md:gap-[19px]">
           {NAV_LINKS.map(({ href, label }) => {
             const active = isActive(pathname, href);
             return active ? (
@@ -73,34 +123,12 @@ export default function Header() {
               </Link>
             );
           })}
-
-          {/* Sign in leads to the membership magic-link page; sign out is a
-              direct action. While the session is still loading we fall back to
-              the "Sign in" state (SSR matches, so no hydration mismatch). */}
-          {isAuthed ? (
-            <Button
-              onClick={() => signOut({ callbackUrl: "/" })}
-              className="text-base"
-              innerClassName="px-4 py-[7px]"
-              color="white"
-              outlineColor="emn-black"
-              textColor="emn-black"
-            >
-              Sign out
-            </Button>
-          ) : (
-            <Button
-              href="/membership"
-              className="text-base"
-              innerClassName="px-4 py-[7px]"
-              color="emn-green"
-              outlineColor="emn-green-dark"
-              textColor="white"
-            >
-              Sign in
-            </Button>
-          )}
         </div>
+
+        {/* Right-aligned sign in / out (desktop). While the session is still
+            loading we fall back to the "Sign in" state (SSR matches, so no
+            hydration mismatch). */}
+        <div className="hidden md:block">{authButton}</div>
 
         {/* Mobile toggle */}
         <button

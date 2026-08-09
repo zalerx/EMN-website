@@ -14,3 +14,41 @@ body {
     background-color: #f1f1f1;
 }
 
+/* Highlight colour when the user selects text (emn-green with dark text for
+ * legibility — white fails contrast on this green). */
+::selection {
+    background-color: #6cbe45;
+    color: #221f20;
+}
+
+/* ── Hero entrance + reveal animations ──────────────────────────────────────
+ * Used by app/components/hero.tsx. The headline lines "rise" out of their
+ * clipped rows; the subtitle and CTA fade up after. Kept as plain CSS so the
+ * cubic-bezier/delay tuning lives in one place.
+ */
+@keyframes emnRise {
+  from { transform: translateY(112%); }
+  to   { transform: translateY(0); }
+}
+@keyframes emnFadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.emn-rise-1 { animation: emnRise 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both; }
+.emn-rise-2 { animation: emnRise 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; }
+.emn-rise-3 { animation: emnRise 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both; }
+.emn-fade-up-sub { opacity: 0; animation: emnFadeUp 0.8s ease-out 0.7s both; }
+.emn-fade-up-cta { opacity: 0; animation: emnFadeUp 0.9s ease-out 1s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .emn-rise-1,
+  .emn-rise-2,
+  .emn-rise-3,
+  .emn-fade-up-sub,
+  .emn-fade-up-cta {
+    animation: none;
+    opacity: 1;
+  }
+}
+

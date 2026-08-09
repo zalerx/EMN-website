@@ -1,0 +1,28 @@
+/* React Bits "CircularText" styles, adapted for this project:
+ *  - size is driven by the `--circular-text-size` custom property so callers can
+ *    scale the ring (default 200px, matching the original).
+ *  - letter size is driven by `--circular-text-font-size` (default 24px).
+ *  - colour uses `currentColor`, so a Tailwind text-* class sets the letters
+ *    (e.g. `text-emn-black`) instead of the original hard-coded white.
+ */
+.circular-text {
+  margin: 0 auto;
+  border-radius: 50%;
+  width: var(--circular-text-size, 200px);
+  height: var(--circular-text-size, 200px);
+  position: relative;
+  font-weight: 900;
+  color: currentColor;
+  text-align: center;
+  cursor: pointer;
+  transform-origin: 50% 50%;
+  -webkit-transform-origin: 50% 50%;
+}
+
+.circular-text span {
+  position: absolute;
+  display: inline-block;
+  inset: 0;
+  font-size: var(--circular-text-font-size, 24px);
+  transition: all 0.5s cubic-bezier(0, 0, 0, 1);
+}
