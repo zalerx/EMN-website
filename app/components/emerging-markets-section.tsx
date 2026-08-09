@@ -366,7 +366,8 @@ export default function EmergingMarketsSection({ className }: { className?: stri
         </p>
       </div>
 
-      <div className="mt-4 grid w-full grid-cols-1 gap-10">
+      {/* Map + chart are hover-driven and too cramped on phones — desktop/tablet only. */}
+      <div className="mt-4 hidden w-full grid-cols-1 gap-10 md:grid">
         {/* Map */}
         <div>
           <h3 className="font-candu text-2xl uppercase md:text-[28px]">The emerging markets map</h3>

@@ -126,13 +126,13 @@ export default function MembershipPage() {
               >
                 <label className="w-full">
                   <span className="mb-2 block text-base font-semibold text-black">
-                    Student Email
+                    Email
                   </span>
                   <input
                     type="email"
                     required
                     autoComplete="email"
-                    placeholder="you@student.unimelb.edu.au"
+                    placeholder="you@mail.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={status.kind === "loading"}
