@@ -1,39 +1,60 @@
 "use client";
 
+import { useState, useTransition } from "react";
 import Button from "@/app/components/button";
-
-// Enquiries are delivered here. Kept in sync with the visible contact link
-// rendered by the sponsors page.
-const SPONSOR_EMAIL = "emergingmarketsnetworksponsors@gmail.com";
+import { sendSponsorEnquiry } from "@/app/sponsors/actions";
 
 const fieldInput =
-  "rounded-[16px] border-2 border-emn-offwhite bg-emn-offwhite px-4 py-3 text-[15px] text-emn-black outline-none transition-[border-color,box-shadow] focus:border-emn-green-dark focus:ring-[3px] focus:ring-emn-green-dark/35";
+  "rounded-[16px] border-2 border-emn-offwhite bg-emn-offwhite px-4 py-3 text-[15px] text-emn-black outline-none transition-[border-color,box-shadow] focus:border-emn-green-dark focus:ring-[3px] focus:ring-emn-green-dark/35 disabled:opacity-60";
 const fieldLabel = "text-[12px] font-bold uppercase tracking-[0.18em]";
 
 export default function EnquiryForm() {
-  // No email backend on this site — compose the enquiry into the club's inbox
-  // via the visitor's mail client so it reaches SPONSOR_EMAIL.
+  const [pending, startTransition] = useTransition();
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // The enquiry is emailed to the club inbox by a server action (SMTP), so it
+  // actually sends — no dependency on the visitor having a mail client set up.
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    const name = (data.get("name") as string)?.trim() ?? "";
-    const org = (data.get("org") as string)?.trim() ?? "";
-    const email = (data.get("email") as string)?.trim() ?? "";
-    const msg = (data.get("msg") as string)?.trim() ?? "";
+    const payload = {
+      name: (data.get("name") as string)?.trim() ?? "",
+      org: (data.get("org") as string)?.trim() ?? "",
+      email: (data.get("email") as string)?.trim() ?? "",
+      msg: (data.get("msg") as string)?.trim() ?? "",
+    };
+    const form = e.currentTarget;
 
-    const subject = `Sponsorship enquiry — ${org || name || "EMN"}`;
-    const body = [
-      `Name: ${name}`,
-      `Organisation: ${org}`,
-      `Work email: ${email}`,
-      "",
-      msg,
-    ].join("\n");
-
-    window.location.href = `mailto:${SPONSOR_EMAIL}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
+    setError(null);
+    startTransition(async () => {
+      const result = await sendSponsorEnquiry(payload);
+      if (result.ok) {
+        setSent(true);
+        form.reset();
+      } else {
+        setError(result.error);
+      }
+    });
   };
+
+  if (sent) {
+    return (
+      <div className="flex flex-col gap-2 rounded-[16px] border-2 border-emn-green-dark bg-emn-offwhite px-5 py-6 text-emn-black">
+        <p className="text-base font-black">Thanks — your enquiry is on its way.</p>
+        <p className="text-[14px] opacity-80">
+          We reply within 3 business days.
+        </p>
+        <button
+          type="button"
+          onClick={() => setSent(false)}
+          className="mt-1 self-start text-[13px] font-bold uppercase tracking-[0.18em] text-emn-green-dark underline underline-offset-4"
+        >
+          Send another
+        </button>
+      </div>
+    );
+  }
 
   return (
     <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
@@ -47,6 +68,7 @@ export default function EnquiryForm() {
             name="name"
             type="text"
             required
+            disabled={pending}
             placeholder="e.g. Alex Tan"
             className={fieldInput}
           />
@@ -60,6 +82,7 @@ export default function EnquiryForm() {
             name="org"
             type="text"
             required
+            disabled={pending}
             placeholder="Firm or team"
             className={fieldInput}
           />
@@ -75,6 +98,7 @@ export default function EnquiryForm() {
           name="email"
           type="email"
           required
+          disabled={pending}
           placeholder="alex@firm.com"
           className={fieldInput}
         />
@@ -87,10 +111,17 @@ export default function EnquiryForm() {
         <textarea
           id="msg"
           name="msg"
+          disabled={pending}
           placeholder="Hiring goals, event types, brand activations…"
           className={`min-h-24 resize-y ${fieldInput}`}
         />
       </div>
+
+      {error && (
+        <p role="alert" className="text-[13px] font-bold text-red-600">
+          {error}
+        </p>
+      )}
 
       <div className="mt-1.5 flex items-center justify-between gap-4">
         <span className="text-[12px] opacity-85">
@@ -102,8 +133,9 @@ export default function EnquiryForm() {
           color="emn-offwhite"
           outlineColor="emn-green-dark"
           textColor="emn-green-dark"
+          disabled={pending}
         >
-          Send enquiry →
+          {pending ? "Sending…" : "Send enquiry →"}
         </Button>
       </div>
     </form>
