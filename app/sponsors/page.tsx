@@ -76,7 +76,7 @@ export default async function Sponsors() {
             </p>
 
             <div className="mb-7 grid grid-cols-1 gap-[14px] sm:grid-cols-2">
-              {STATS.map(({ n, l, sub }) => (
+              {STATS.map(({ n, l }) => (
                 <div
                   key={l}
                   className="rounded-[16px] border-2 border-emn-offwhite/45 px-[18px] py-4"
@@ -85,11 +85,6 @@ export default async function Sponsors() {
                   <div className="mt-1 text-[13px] leading-[1.3] opacity-85">
                     {l}
                   </div>
-                  {sub && (
-                    <div className="mt-1 text-[12px] leading-[1.3] opacity-70">
-                      {sub}
-                    </div>
-                  )}
                 </div>
               ))}
             </div>
