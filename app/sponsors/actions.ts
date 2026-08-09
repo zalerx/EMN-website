@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import nodemailer from "nodemailer";
 import { supabaseAdmin } from "@/app/lib/supabase-server";
 import { requireCommittee } from "@/app/lib/require-committee";
 import type { SponsorFit, SponsorInput, SponsorShape } from "@/types/sponsor";
@@ -9,6 +10,68 @@ import type { SponsorFit, SponsorInput, SponsorShape } from "@/types/sponsor";
 export type ActionResult<T = undefined> =
   | { ok: true; data: T }
   | { ok: false; error: string };
+
+// Public "Become a sponsor" enquiries land here. Kept in sync with the address
+// shown on the sponsors page and used as the enquiry form's delivery target.
+const SPONSOR_INBOX = "emergingmarketsnetworksponsors@gmail.com";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+//
+// Send a sponsorship enquiry to the club inbox over the same SMTP transport the
+// membership magic-link flow uses (EMAIL_SERVER / EMAIL_FROM). This is a public
+// action — no auth — so it only ever sends to the fixed SPONSOR_INBOX and never
+// echoes the SMTP error back to the browser.
+//
+export async function sendSponsorEnquiry(input: {
+  name: string;
+  org: string;
+  email: string;
+  msg: string;
+}): Promise<ActionResult<undefined>> {
+  const name = input.name?.trim() ?? "";
+  const org = input.org?.trim() ?? "";
+  const email = input.email?.trim() ?? "";
+  const msg = input.msg?.trim() ?? "";
+
+  if (!name || !org || !email) {
+    return fail("Please fill in your name, organisation and work email.");
+  }
+  if (!EMAIL_RE.test(email)) {
+    return fail("That work email doesn't look right.");
+  }
+
+  const server = process.env.EMAIL_SERVER;
+  const from = process.env.EMAIL_FROM;
+  if (!server || !from) {
+    console.error("[sponsors] EMAIL_SERVER/EMAIL_FROM not configured");
+    return fail("Email isn't set up right now — please email us directly.");
+  }
+
+  const text = [
+    `Name: ${name}`,
+    `Organisation: ${org}`,
+    `Work email: ${email}`,
+    "",
+    msg || "(no message)",
+  ].join("\n");
+
+  try {
+    const transport = nodemailer.createTransport(server);
+    await transport.sendMail({
+      to: SPONSOR_INBOX,
+      from, // must be the SMTP-authenticated sender, not the enquirer
+      replyTo: email, // so "Reply" goes straight back to the enquirer
+      subject: `Sponsorship enquiry — ${org || name}`,
+      text,
+    });
+  } catch (err) {
+    console.error("[sponsors] enquiry send failed:", err);
+    return fail("Couldn't send your enquiry — please try again shortly.");
+  }
+
+  return { ok: true, data: undefined };
+}
 
 const LOGO_TYPES: Record<string, true> = {
   "image/png": true,

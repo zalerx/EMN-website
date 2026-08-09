@@ -38,7 +38,7 @@ export default async function Sponsors() {
   return (
     <main className="px-4 pb-16 md:px-[18px] md:pb-[21px]">
       {/* Hero */}
-      <section className="mx-auto mt-12 max-w-[1236px] px-0 md:mt-[72px] md:px-[18px]">
+      <section className="mx-auto mt-12 flex max-w-[1236px] flex-col items-center px-0 text-center md:mt-[72px] md:px-[18px]">
         <h1 className="mb-6 font-candu text-[54px] uppercase leading-[0.9] text-emn-green-dark md:mb-[26px] md:text-[72px] lg:text-[120px]">
           Sponsors
         </h1>
