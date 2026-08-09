@@ -56,7 +56,7 @@ function Stat({
       )}
       {shape === "seed" && <Seed className="absolute inset-0 h-full w-full" />}
       <div className="relative flex flex-col items-center gap-1 text-center font-candu uppercase text-emn-black md:gap-2">
-        <span className="text-[37cqw] leading-none">
+        <span className="font-sans text-[37cqw] font-bold leading-none">
           <CountUp from={0} to={to} direction="up" duration={1.5} />
           {suffix}
         </span>

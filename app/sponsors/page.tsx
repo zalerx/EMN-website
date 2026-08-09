@@ -12,9 +12,9 @@ import type { Sponsor } from "@/types/sponsor";
 const SPONSOR_EMAIL = "emergingmarketsnetworksponsors@gmail.com";
 
 const STATS = [
-  { n: "300+", l: "Melbourne members in finance, economics & politics" },
-  { n: "12", l: "Events per year — pub nights, panels & workshops" },
-  { n: "8", l: "Alumni destinations incl. Citi, McKinsey & Parliament" },
+  { n: "100k+", l: "Followers across our social media platforms" },
+  { n: "8+", l: "Events per year — pub nights, panels & workshops" },
+  { n: "700+", l: "Newsletter subscribers with a 50% open rate" },
   { n: "#1", l: "Australia's inaugural student society for emerging markets" },
 ];
 
@@ -76,7 +76,7 @@ export default async function Sponsors() {
             </p>
 
             <div className="mb-7 grid grid-cols-1 gap-[14px] sm:grid-cols-2">
-              {STATS.map(({ n, l }) => (
+              {STATS.map(({ n, l, sub }) => (
                 <div
                   key={l}
                   className="rounded-[16px] border-2 border-emn-offwhite/45 px-[18px] py-4"
@@ -85,6 +85,11 @@ export default async function Sponsors() {
                   <div className="mt-1 text-[13px] leading-[1.3] opacity-85">
                     {l}
                   </div>
+                  {sub && (
+                    <div className="mt-1 text-[12px] leading-[1.3] opacity-70">
+                      {sub}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

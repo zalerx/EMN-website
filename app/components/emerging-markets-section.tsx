@@ -366,8 +366,8 @@ export default function EmergingMarketsSection({ className }: { className?: stri
         </p>
       </div>
 
-      {/* Map + chart are hover-driven and too cramped on phones — desktop/tablet only. */}
-      <div className="mt-4 hidden w-full grid-cols-1 gap-10 md:grid">
+      {/* The map shows everywhere; the chart is hover-driven and too cramped on phones — desktop/tablet only. */}
+      <div className="mt-4 grid w-full grid-cols-1 gap-10">
         {/* Map */}
         <div>
           <h3 className="font-candu text-2xl uppercase md:text-[28px]">The emerging markets map</h3>
@@ -385,7 +385,7 @@ export default function EmergingMarketsSection({ className }: { className?: stri
         </div>
 
         {/* Chart */}
-        <div>
+        <div className="hidden md:block">
           <h3 className="font-candu text-2xl uppercase md:text-[28px]">Compare the EM economies</h3>
           <p className="mb-4 mt-1.5 text-[13px] text-emn-offwhite/65">
             Live from the{" "}

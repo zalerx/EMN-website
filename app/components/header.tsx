@@ -24,16 +24,27 @@ function isActive(pathname: string, href: string) {
     : pathname === href || pathname.startsWith(`${href}/`);
 }
 
+// The hero crops from full-bleed into an inset card over `CROP_SCROLL` px of
+// scrolling (see hero.tsx). We reveal the navbar once that crop is ~80% done,
+// so the bar slides in just before the hero finishes settling into its card.
+const HERO_CROP_SCROLL = 600;
+const NAV_REVEAL_SCROLL = HERO_CROP_SCROLL * 0.8;
+
+// Distance (px) from the top of the viewport within which moving the pointer
+// "peeks" the navbar into view, even before the hero has cropped away.
+const NAV_HOVER_ZONE = 96;
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [peeked, setPeeked] = useState(false);
   const pathname = usePathname();
   const { status } = useSession();
   const isAuthed = status === "authenticated";
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   // On the home page the hero fills the viewport, so the navbar stays hidden on
-  // load and slides in once the visitor starts scrolling (then floats over the
+  // load and slides in once the hero has fully cropped (then floats over the
   // page as a fixed bar). Every other page keeps the navbar in normal flow.
   const isHome = pathname === "/";
   useEffect(() => {
@@ -41,13 +52,27 @@ export default function Header() {
       setScrolled(false);
       return;
     }
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY >= NAV_REVEAL_SCROLL);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [isHome]);
 
-  const hidden = isHome && !scrolled && !isMenuOpen;
+  // Peek the navbar when the pointer hovers near the top of the viewport, even
+  // while the hero is still full-bleed. Tracking pointer Y (rather than the
+  // header's own hover) avoids flicker as the mouse crosses onto the revealed
+  // bar. `setPeeked` no-ops when the boolean is unchanged, so this stays cheap.
+  useEffect(() => {
+    if (!isHome) {
+      setPeeked(false);
+      return;
+    }
+    const onMove = (e: MouseEvent) => setPeeked(e.clientY <= NAV_HOVER_ZONE);
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, [isHome]);
+
+  const hidden = isHome && !scrolled && !peeked && !isMenuOpen;
 
   // Right-aligned sign in / sign out control, shared by desktop layout.
   const authButton = isAuthed ? (

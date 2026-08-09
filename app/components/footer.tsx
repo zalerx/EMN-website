@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Instagram, Linkedin, Facebook, Youtube } from "lucide-react";
+import { Instagram, Linkedin, Facebook } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -19,11 +19,11 @@ export default function Footer() {
       {/* Middle section: internal links + newsletter form */}
       <div className="flex w-full flex-col items-center gap-8 md:flex-row md:items-center md:justify-between md:gap-10">
         {/* Internal links */}
-        <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[15px] text-black md:w-[497px] md:justify-between">
+        <nav className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[15px] text-black">
+          <Link href="/">Home</Link>
           <Link href="/events">Events</Link>
           <Link href="/articles">Research</Link>
-          <Link href="/resources">Resources</Link>
-          <Link href="#">Tradle</Link>
+          <Link href="/membership">Membership</Link>
           <Link href="/sponsors">Sponsors</Link>
         </nav>
 
@@ -76,9 +76,6 @@ export default function Footer() {
           rel="noopener noreferrer"
         >
           <Facebook className="h-[25px] w-[25px] text-black" />
-        </Link>
-        <Link href="#" aria-label="YouTube">
-          <Youtube className="h-[25px] w-[25px] text-black" />
         </Link>
       </div>
     </footer>
