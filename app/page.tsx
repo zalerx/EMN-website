@@ -55,7 +55,7 @@ export default async function Home() {
       {/* pt matches the inter-section gap (gap-16 / md:gap-24) minus the hero's
           18px bottom crop inset, so the hero → About gap equals the gap between
           the other sections. */}
-      <main className="flex flex-col items-center gap-16 px-4 pb-16 pt-[46px] md:gap-24 md:px-[18px] md:pb-[21px] md:pt-[78px]">
+      <main className="flex flex-col items-center gap-16 px-4 pb-24 pt-[46px] md:gap-24 md:px-[18px] md:pb-16 md:pt-[78px]">
         {/* About */}
         <AboutSection />
 
@@ -136,7 +136,7 @@ export default async function Home() {
         </section>
 
         {/* Sponsors */}
-        <section className="flex w-full max-w-[1190px] flex-col items-center gap-8 md:gap-[29px]">
+        <section className="flex w-full max-w-[1190px] flex-col items-center gap-4 md:gap-4">
           <h2 className="font-candu text-[56px] uppercase text-emn-black md:text-title">
             SPONSORS
           </h2>
@@ -145,7 +145,7 @@ export default async function Home() {
           </div>
           <Button
             href="/sponsors"
-            className="mt-4 text-base font-black md:text-xl"
+            className="mt-6 text-base font-black md:text-xl"
             innerClassName="flex h-12 w-[260px] max-w-full items-center justify-center px-4 md:h-[55px] md:w-[313px]"
             color="emn-black"
             outlineColor="black"

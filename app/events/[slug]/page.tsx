@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import Button from "@/app/components/button";
 import MediaBox from "@/app/components/events/media-box";
 import EventEditor from "@/app/components/events/event-editor";
 import EventPhotoManager from "@/app/components/events/event-photo-manager";
@@ -178,14 +179,18 @@ export default async function EventDetailPage({
                 photos below.
               </p>
             ) : ev.rsvp_url ? (
-              <a
+              <Button
                 href={ev.rsvp_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-flex h-[55px] items-center justify-center rounded-[28px] bg-emn-green text-xl font-black text-white transition-opacity hover:opacity-90"
+                className="mt-2 text-xl font-black"
+                innerClassName="flex h-[55px] items-center justify-center px-8"
+                color="emn-green"
+                outlineColor="emn-offwhite"
+                textColor="white"
               >
                 Sign up here
-              </a>
+              </Button>
             ) : (
               <p className="rounded-[14px_0_14px_0] bg-emn-offwhite/[0.08] px-4 py-3.5 text-sm font-bold text-emn-offwhite/85">
                 Sign-up details coming soon.

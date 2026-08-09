@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Search } from "lucide-react";
+import Button from "@/app/components/button";
 import ArticleGrid from "@/app/components/articles/article-grid";
 import TheNumbers from "@/app/components/articles/the-numbers";
 import { getCommitteeSession } from "@/app/lib/require-committee";
@@ -214,12 +215,16 @@ export default async function ResearchPage({
               headlines through our EMN Newsletter.
             </p>
           </div>
-          <a
+          <Button
             href="#newsletter"
-            className="inline-flex h-[55px] shrink-0 items-center justify-center rounded-[28px] bg-emn-green px-9 text-xl font-black text-white transition-opacity hover:opacity-90"
+            className="shrink-0 text-xl font-black"
+            innerClassName="flex h-[55px] items-center justify-center px-9"
+            color="emn-green"
+            outlineColor="emn-offwhite"
+            textColor="white"
           >
             Subscribe
-          </a>
+          </Button>
         </section>
       </div>
     </main>

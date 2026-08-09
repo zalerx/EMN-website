@@ -30,7 +30,13 @@ export default function EventsGrid({ events }: { events: EventRecord[] }) {
 
   return (
     <>
-      <div className="mx-auto mt-20 flex max-w-[1236px] flex-wrap items-center gap-x-10 gap-y-3 px-[18px] md:mt-[88px]">
+      <div className="mx-auto mt-20 max-w-[1236px] px-[18px] md:mt-[88px]">
+        <h2 className="font-candu text-[32px] uppercase leading-none text-emn-green-dark md:text-[44px]">
+          All Events
+        </h2>
+      </div>
+
+      <div className="mx-auto mt-6 flex max-w-[1236px] flex-wrap items-center gap-x-10 gap-y-3 px-[18px]">
         <span className="text-xs font-black uppercase tracking-[0.14em] text-emn-black/60">
           Filter
         </span>
@@ -52,12 +58,6 @@ export default function EventsGrid({ events }: { events: EventRecord[] }) {
             </button>
           ))}
         </div>
-      </div>
-
-      <div className="mx-auto mt-9 max-w-[1236px] px-[18px]">
-        <h2 className="font-candu text-[32px] uppercase leading-none text-emn-green-dark md:text-[44px]">
-          All Events
-        </h2>
       </div>
 
       {visible.length > 0 ? (

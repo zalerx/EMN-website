@@ -43,26 +43,31 @@ export default function TheNumbers() {
         </span>
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-2.5">
-        {MARKET_NUMBERS.map((r) => {
-          const on = r.id === active;
-          return (
-            <button
-              key={r.id}
-              type="button"
-              aria-pressed={on}
-              onClick={() => setActive(r.id)}
-              className={cn(
-                "rounded-[20px] border-2 border-emn-green-dark px-5 py-2 text-sm font-bold uppercase transition-colors",
-                on
-                  ? "bg-emn-green-dark text-emn-offwhite"
-                  : "bg-transparent text-emn-green-dark hover:bg-emn-green/15"
-              )}
-            >
-              {r.label}
-            </button>
-          );
-        })}
+      <div className="mt-6 flex flex-wrap items-center gap-x-10 gap-y-3">
+        <span className="text-xs font-black uppercase tracking-[0.14em] text-emn-black/60">
+          Filter
+        </span>
+        <div className="flex flex-wrap gap-2">
+          {MARKET_NUMBERS.map((r) => {
+            const on = r.id === active;
+            return (
+              <button
+                key={r.id}
+                type="button"
+                aria-pressed={on}
+                onClick={() => setActive(r.id)}
+                className={cn(
+                  "h-[34px] rounded-[17px_0_17px_0] border-2 border-emn-green-dark px-4 pt-[2px] text-[13px] font-bold transition-colors",
+                  on
+                    ? "bg-emn-green-dark text-emn-offwhite"
+                    : "bg-transparent text-emn-green-dark hover:bg-emn-green-dark/10"
+                )}
+              >
+                {r.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="mt-4 overflow-x-auto rounded-[18px] bg-white px-5 pb-3 pt-5 md:px-7 md:pt-6">

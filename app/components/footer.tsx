@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Linkedin, Facebook } from "lucide-react";
+import NewsletterForm from "@/app/components/newsletter-form";
 
 export default function Footer() {
   return (
@@ -28,27 +29,7 @@ export default function Footer() {
         </nav>
 
         {/* Newsletter form */}
-        <form
-          id="newsletter"
-          className="flex w-full scroll-mt-24 flex-col gap-1 md:w-[375px]"
-        >
-          <label className="text-[13px] font-bold text-black">
-            Sign up to our newsletter:
-          </label>
-          <div className="relative">
-            <input
-              type="email"
-              placeholder="Email address"
-              className="h-[31px] w-full rounded-[16px] border-2 border-black bg-emn-offwhite pl-4 pr-[124px] text-[13px] text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-emn-green"
-            />
-            <button
-              type="submit"
-              className="absolute right-0 top-0 h-[31px] w-[116px] rounded-[16px] border-2 border-black bg-emn-black text-[13px] font-bold text-emn-offwhite"
-            >
-              Subscribe
-            </button>
-          </div>
-        </form>
+        <NewsletterForm />
       </div>
 
       {/* Socials */}
