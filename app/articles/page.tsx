@@ -216,14 +216,16 @@ export default async function ResearchPage({
             </p>
           </div>
           <Button
-            href="#newsletter"
+            href="https://emergingmarketsnetworkmelbourne.beehiiv.com/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="shrink-0 text-xl font-black"
             innerClassName="flex h-[55px] items-center justify-center px-9"
-            color="emn-green"
-            outlineColor="emn-offwhite"
+            color="emn-green-dark"
+            outlineColor="white"
             textColor="white"
           >
-            Subscribe
+            Read Now
           </Button>
         </section>
       </div>
