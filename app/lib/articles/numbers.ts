@@ -11,10 +11,12 @@
 export interface NumbersIndicator {
   /** Display name of the index / instrument. */
   label: string;
-  /** 1-week change, signed percent (e.g. 1.4 or -0.3). */
+  /** 1-week change, signed (e.g. 1.4 or -0.3). Interpreted per `unit`. */
   week: number;
-  /** Year-to-date change, signed percent. */
+  /** Year-to-date change, signed. Interpreted per `unit`. */
   ytd: number;
+  /** Display unit for week/ytd. Defaults to "%" when omitted. */
+  unit?: "%" | "bps";
 }
 
 export interface NumbersRegion {
