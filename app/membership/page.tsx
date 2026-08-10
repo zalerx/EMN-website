@@ -158,6 +158,25 @@ export default function MembershipPage() {
           )}
         </div>
       </div>
+
+      {/* Help section */}
+      <div className="mt-10 w-full max-w-[681px] rounded-[16px] border-4 border-emn-black px-6 py-6 md:px-10">
+        <h2 className="font-candu text-mheading uppercase text-emn-black">
+          Having trouble?
+        </h2>
+        <p className="mt-3 text-base font-semibold text-black">
+          This is the email you used when signing up with UMSU and may not
+          necessarily be your student email. If you&apos;re having trouble
+          finding your membership, send us an email and we&apos;ll help you
+          out.
+        </p>
+        <a
+          href="mailto:emergingmarketsnetworkuom@gmail.com"
+          className="mt-3 inline-block text-base font-bold text-emn-black underline decoration-emn-green decoration-2 underline-offset-4"
+        >
+          emergingmarketsnetworkuom@gmail.com
+        </a>
+      </div>
     </main>
   );
 }
