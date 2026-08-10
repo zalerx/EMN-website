@@ -26,7 +26,7 @@ export default function EventHeadline({ event }: { event: EventRecord }) {
         imgClassName="transition-transform duration-500 group-hover:scale-[1.025]"
       />
 
-      <div className="flex flex-col gap-5 px-[22px] pt-[30px] md:flex-row md:items-end md:justify-between md:gap-10">
+      <div className="flex flex-col gap-5 px-[22px] pt-[30px] md:flex-row md:items-start md:justify-between md:gap-10">
         <div className="max-w-[600px]">
           <h2 className="font-candu text-3xl uppercase leading-[0.95] text-emn-offwhite md:text-[44px]">
             {event.title}
@@ -38,10 +38,7 @@ export default function EventHeadline({ event }: { event: EventRecord }) {
           )}
         </div>
         <div className="flex flex-shrink-0 flex-col gap-2 md:items-end md:text-right">
-          <span className="inline-flex items-center justify-center self-start rounded-[12px_0_12px_0] bg-emn-black px-3 pb-1 pt-[5px] text-[11px] font-black uppercase tracking-[0.12em] text-emn-offwhite md:self-end">
-            {event.category}
-          </span>
-          <span className="text-xl font-black tracking-[0.02em] text-emn-green">
+          <span className="text-xl font-black tracking-[0.02em] text-emn-offwhite">
             {formatEventDateTime(event.starts_at, event)}
           </span>
           {location && (
@@ -49,7 +46,7 @@ export default function EventHeadline({ event }: { event: EventRecord }) {
               {location}
             </span>
           )}
-          <span className="mt-3 self-start border-b-2 border-emn-green pb-[3px] text-base font-black text-emn-offwhite transition-colors group-hover:text-emn-green md:self-end">
+          <span className="mt-3 self-start border-b-2 border-emn-green pb-[3px] text-base font-black text-emn-offwhite md:self-end">
             {past ? "View photos →" : "View details →"}
           </span>
         </div>
