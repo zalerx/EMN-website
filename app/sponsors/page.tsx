@@ -12,7 +12,7 @@ import type { Sponsor } from "@/types/sponsor";
 const SPONSOR_EMAIL = "emergingmarketsnetworksponsors@gmail.com";
 
 const STATS = [
-  { n: "100k+", l: "Followers across our social media platforms" },
+  { n: "1000+", l: "Followers across our social media platforms" },
   { n: "8+", l: "Events per year — pub nights, panels & workshops" },
   { n: "700+", l: "Newsletter subscribers with a 50% open rate" },
   { n: "#1", l: "Australia's inaugural student society for emerging markets" },
