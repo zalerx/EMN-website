@@ -48,7 +48,7 @@ export default function EventsGrid({ events }: { events: EventRecord[] }) {
               onClick={() => setFilter(f.val)}
               aria-pressed={filter === f.val}
               className={cn(
-                "h-[34px] rounded-[17px_0_17px_0] border-2 border-emn-green-dark px-4 pt-[2px] text-[13px] font-bold transition-colors",
+                "h-[34px] rounded-full border-2 border-emn-green-dark px-4 pt-[2px] text-[13px] font-bold transition-colors",
                 filter === f.val
                   ? "bg-emn-green-dark text-emn-offwhite"
                   : "bg-transparent text-emn-green-dark hover:bg-emn-green-dark/10"

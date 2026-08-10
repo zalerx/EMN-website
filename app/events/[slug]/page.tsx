@@ -183,8 +183,8 @@ export default async function EventDetailPage({
                 href={ev.rsvp_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 text-xl font-black"
-                innerClassName="flex h-[55px] items-center justify-center px-8"
+                className="mt-2 w-full text-xl font-black"
+                innerClassName="flex h-[55px] w-full items-center justify-center px-8"
                 color="emn-green"
                 outlineColor="emn-offwhite"
                 textColor="white"

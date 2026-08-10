@@ -62,7 +62,7 @@ export default function TheNumbersClient({
                 aria-pressed={on}
                 onClick={() => setActive(r.id)}
                 className={cn(
-                  "h-[34px] rounded-[17px_0_17px_0] border-2 border-emn-green-dark px-4 pt-[2px] text-[13px] font-bold transition-colors",
+                  "h-[34px] rounded-full border-2 border-emn-green-dark px-4 pt-[2px] text-[13px] font-bold transition-colors",
                   on
                     ? "bg-emn-green-dark text-emn-offwhite"
                     : "bg-transparent text-emn-green-dark hover:bg-emn-green-dark/10"
@@ -76,7 +76,12 @@ export default function TheNumbersClient({
       </div>
 
       <div className="mt-4 overflow-x-auto rounded-[18px] bg-white px-5 pb-3 pt-5 md:px-7 md:pt-6">
-        <table className="w-full border-collapse">
+        <table className="w-full min-w-[420px] table-fixed border-collapse">
+          <colgroup>
+            <col className="w-1/2" />
+            <col className="w-1/4" />
+            <col className="w-1/4" />
+          </colgroup>
           <thead>
             <tr>
               <th className={cn(TH_BASE, "rounded-l-[8px] pl-3.5 pr-3 text-left")}>

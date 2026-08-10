@@ -30,7 +30,7 @@ function pageHref(params: { q?: string; tag?: string; page?: number }) {
 
 function tagPill(active: boolean) {
   return cn(
-    "inline-block rounded-[18px] border-2 border-emn-green-dark px-4 py-1.5 text-[13px] font-bold uppercase tracking-[0.02em] transition-colors",
+    "inline-block rounded-full border-2 border-emn-green-dark px-4 py-1.5 text-[13px] font-bold uppercase tracking-[0.02em] transition-colors",
     active
       ? "bg-emn-green-dark text-emn-offwhite"
       : "bg-transparent text-emn-green-dark hover:bg-emn-green/15"
