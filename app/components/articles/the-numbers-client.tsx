@@ -76,19 +76,18 @@ export default function TheNumbersClient({
       </div>
 
       <div className="mt-4 overflow-x-auto rounded-[18px] bg-white px-5 pb-3 pt-5 md:px-7 md:pt-6">
-        <table className="w-full min-w-[420px] table-fixed border-collapse">
-          <colgroup>
-            <col className="w-1/2" />
-            <col className="w-1/4" />
-            <col className="w-1/4" />
-          </colgroup>
+        <table className="w-full border-collapse">
           <thead>
             <tr>
               <th className={cn(TH_BASE, "rounded-l-[8px] pl-3.5 pr-3 text-left")}>
                 Indicator
               </th>
-              <th className={cn(TH_BASE, "px-3 text-right")}>1 Week</th>
-              <th className={cn(TH_BASE, "rounded-r-[8px] pl-3 pr-3.5 text-right")}>
+              <th className={cn(TH_BASE, "whitespace-nowrap px-3 text-right")}>
+                1 Week
+              </th>
+              <th
+                className={cn(TH_BASE, "whitespace-nowrap rounded-r-[8px] pl-3 pr-3.5 text-right")}
+              >
                 YTD
               </th>
             </tr>
@@ -107,10 +106,10 @@ export default function TheNumbersClient({
                 <td className={cn(TD_BASE, "pl-3.5 pr-3 text-left font-bold text-emn-black")}>
                   {ind.label}
                 </td>
-                <td className={cn(TD_BASE, "px-3 text-right font-black")}>
+                <td className={cn(TD_BASE, "whitespace-nowrap px-3 text-right font-black")}>
                   <Change value={ind.week} unit={ind.unit} />
                 </td>
-                <td className={cn(TD_BASE, "pl-3 pr-3.5 text-right font-black")}>
+                <td className={cn(TD_BASE, "whitespace-nowrap pl-3 pr-3.5 text-right font-black")}>
                   <Change value={ind.ytd} unit={ind.unit} />
                 </td>
               </tr>
