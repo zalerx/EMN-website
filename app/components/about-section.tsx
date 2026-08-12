@@ -90,21 +90,17 @@ export default function AboutSection({ className }: { className?: string }) {
         />
       </div>
 
-      <div className="flex max-w-[896px] flex-col gap-4 text-center md:text-left">
+      <div className="flex max-w-[896px] flex-col gap-4 text-center">
         <p className="text-lg text-emn-offwhite md:text-description">
-          EMN is Australia&apos;s inaugural student society dedicated to emerging
-          markets.
+          We bring together students interested in finance, economics and
+          geopolitics to engage with the economies reshaping global growth,
+          capital and power.
         </p>
         <p className="text-lg text-emn-offwhite/85 md:text-description">
-          We connect students interested in finance, economics and politics with
-          the regions driving the next phase of global growth and geopolitical
-          influence.
-        </p>
-        <p className="text-lg text-emn-offwhite/85 md:text-description">
-          From industry evenings and case competitions to in-house research, and
-          social events, EMN gives you a place to connect with industry
-          professionals, build commercial acumen, and gain a global perspective
-          from day one.
+          Through industry events, case competitions, in house research and
+          social outings, members build commercial judgement, develop a global
+          perspective and connect with like-minded peers and industry
+          professionals.
         </p>
       </div>
 

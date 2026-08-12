@@ -155,73 +155,73 @@ export default function Hero({
               every width, while the background image stays full-bleed. */}
           <div className="relative flex min-h-0 w-full flex-1 flex-col px-3 md:px-[18px]">
             <div className="mx-auto flex w-full max-w-[1236px] flex-1 flex-col items-center justify-center gap-10 lg:flex-row lg:justify-between">
-            <div className="text-center lg:text-left">
-              <h1
-                className="m-0 font-candu uppercase tracking-[-0.01em] text-emn-offwhite"
-                style={{ fontSize: "clamp(2.5rem, min(12vw, 12.5vh), 158px)", lineHeight: 0.86 }}
-              >
-                <span className="block overflow-hidden pt-[0.06em]">
-                  <span className="emn-rise-1 block">Emerging</span>
-                </span>
-                <span className="block overflow-hidden pt-[0.06em]">
-                  <span className="emn-rise-2 block">Markets</span>
-                </span>
-                <span className="block overflow-hidden pt-[0.06em]">
-                  <span className="emn-rise-3 block">Network</span>
-                </span>
-              </h1>
-              <p
-                className="emn-fade-up-sub mx-auto mt-6 max-w-[600px] font-semibold text-emn-offwhite/80 lg:mx-0"
-                style={{ fontSize: "clamp(20px, 2.8vh, 28px)", lineHeight: 1.25, textWrap: "pretty" }}
-              >
-                Australia&apos;s inaugural student society focused on the finance,
-                economics and politics of the emerging world.
-              </p>
-            </div>
+              <div className="text-center lg:text-left">
+                <h1
+                  className="m-0 font-candu uppercase tracking-[-0.01em] text-emn-offwhite"
+                  style={{ fontSize: "clamp(2.5rem, min(12vw, 12.5vh), 158px)", lineHeight: 0.86 }}
+                >
+                  <span className="block overflow-hidden pt-[0.06em]">
+                    <span className="emn-rise-1 block">Emerging</span>
+                  </span>
+                  <span className="block overflow-hidden pt-[0.06em]">
+                    <span className="emn-rise-2 block">Markets</span>
+                  </span>
+                  <span className="block overflow-hidden pt-[0.06em]">
+                    <span className="emn-rise-3 block">Network</span>
+                  </span>
+                </h1>
+                <p
+                  className="emn-fade-up-sub mx-auto mt-6 max-w-[600px] font-semibold text-emn-offwhite/80 lg:mx-0"
+                  style={{ fontSize: "clamp(20px, 2.8vh, 28px)", lineHeight: 1.25, textWrap: "pretty" }}
+                >
+                  Australia&apos;s inaugural student society focused on the finance,
+                  economics and politics of the emerging world
+                </p>
+              </div>
 
-            <div className="emn-fade-up-cta flex flex-col items-center justify-center gap-2 self-stretch lg:flex-1">
-              {wide && (
-                <div className="relative flex h-[clamp(280px,42vh,480px)] w-full items-center justify-center">
-                  {/* Off-white disc sitting behind the 3D mark. */}
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute aspect-square h-[82.8%] rounded-full"
-                    style={{ backgroundColor: "#f1f1f1" }}
-                  />
-                  {/* Brand keywords slowly ringing the disc, just inside its
-                      rim so the black text stays on the off-white. */}
-                  <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                    <CircularText
-                      text="FINANCE • ECONOMICS • POLITICS • "
-                      spinDuration={26}
-                      onHover="speedUp"
-                      className="pointer-events-auto text-emn-black"
-                      style={
-                        {
-                          "--circular-text-size": "clamp(221px, 33.3vh, 380px)",
-                          "--circular-text-font-size": "clamp(13px, 2vh, 20px)",
-                        } as CSSProperties
-                      }
+              <div className="emn-fade-up-cta flex flex-col items-center justify-center gap-2 self-stretch lg:flex-1">
+                {wide && (
+                  <div className="relative flex h-[clamp(280px,42vh,480px)] w-full items-center justify-center">
+                    {/* Off-white disc sitting behind the 3D mark. */}
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute aspect-square h-[82.8%] rounded-full"
+                      style={{ backgroundColor: "#f1f1f1" }}
                     />
+                    {/* Brand keywords slowly ringing the disc, just inside its
+                      rim so the black text stays on the off-white. */}
+                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                      <CircularText
+                        text="FINANCE • ECONOMICS • POLITICS • "
+                        spinDuration={26}
+                        onHover="speedUp"
+                        className="pointer-events-auto text-emn-black"
+                        style={
+                          {
+                            "--circular-text-size": "clamp(221px, 33.3vh, 380px)",
+                            "--circular-text-font-size": "clamp(13px, 2vh, 20px)",
+                          } as CSSProperties
+                        }
+                      />
+                    </div>
+                    <EmnLogo3D className="pointer-events-none relative block h-full w-full" />
                   </div>
-                  <EmnLogo3D className="pointer-events-none relative block h-full w-full" />
-                </div>
-              )}
-              <Button
-                href={JOIN_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-base font-black md:text-xl"
-                innerClassName="flex h-12 w-[220px] max-w-full items-center justify-center px-4 md:h-[55px] md:w-[240px]"
-                color="emn-green-mid"
-                outlineColor="emn-offwhite"
-                textColor="white"
-                hoverTextColor="emn-green-mid"
-                swapOnHover
-              >
-                Join Now
-              </Button>
-            </div>
+                )}
+                <Button
+                  href={JOIN_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-base font-black md:text-xl"
+                  innerClassName="flex h-12 w-[220px] max-w-full items-center justify-center px-4 md:h-[55px] md:w-[240px]"
+                  color="emn-green-mid"
+                  outlineColor="emn-offwhite"
+                  textColor="white"
+                  hoverTextColor="emn-green-mid"
+                  swapOnHover
+                >
+                  Join Now
+                </Button>
+              </div>
             </div>
           </div>
         </section>

@@ -10,6 +10,10 @@
     }
   }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background-color: #f1f1f1;
 }
@@ -42,6 +46,9 @@ body {
 .emn-fade-up-cta { opacity: 0; animation: emnFadeUp 0.9s ease-out 1s both; }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   .emn-rise-1,
   .emn-rise-2,
   .emn-rise-3,
