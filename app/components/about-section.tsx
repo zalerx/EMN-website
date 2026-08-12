@@ -1,70 +1,49 @@
-import Image from "next/image";
+import type { ReactNode } from "react";
 
-import CountUp from "@/app/components/count-up";
+import Image from "next/image";
+import Link from "next/link";
+
+import RotatingText from "@/app/components/rotating-text";
 import { cn } from "@/app/lib/utils";
 
-function Leaf({
-  rotation = 0,
-  className,
-}: {
-  rotation?: number;
-  className?: string;
-}) {
-  return (
-    <svg
-      viewBox="0 0 78.07 78.07"
-      className={className}
-      style={rotation ? { transform: `rotate(${rotation}deg)` } : undefined}
-      aria-hidden
-    >
-      <path
-        d="m0,78.07v-29.28S0,0,48.79,0h29.28s0,29.28,0,29.28c0,0,0,48.79-48.79,48.79,0,0-29.28,0-29.28,0Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
+// Home countries of EMN members, cycled through the rotating pill below.
+const MEMBER_COUNTRIES = [
+  "Australia",
+  "China",
+  "India",
+  "Malaysia",
+  "Vietnam",
+  "Indonesia",
+  "New Zealand",
+  "Singapore",
+  "Sri Lanka",
+  "France",
+  "Thailand",
+  "Japan",
+  "Philippines",
+  "Iran",
+  "Taiwan",
+  "South Korea",
+  "Nigeria",
+  "Bangladesh",
+  "Cambodia",
+  "United States",
+  "Canada",
+  "Afghanistan",
+  "Kenya",
+  "Brunei",
+  "Hong Kong",
+  "United Kingdom",
+  "Pakistan",
+];
 
-function Seed({ className }: { className?: string }) {
+// Green marker highlight for key words in the copy. box-decoration-clone keeps
+// the rounded background intact when a phrase wraps onto a second line.
+function Highlight({ children }: { children: ReactNode }) {
   return (
-    <svg viewBox="0 0 48.8 48.8" className={className} aria-hidden>
-      <circle cx="24.4" cy="24.4" r="24.4" fill="currentColor" />
-    </svg>
-  );
-}
-
-type StatShape = "leaf-left" | "seed" | "leaf-right";
-
-function Stat({
-  to,
-  suffix,
-  label,
-  shape,
-}: {
-  to: number;
-  suffix?: string;
-  label: string;
-  shape: StatShape;
-}) {
-  return (
-    <div className="relative flex aspect-square w-full min-w-0 max-w-[120px] items-center justify-center text-emn-offwhite [container-type:inline-size] sm:max-w-[180px] md:max-w-[260px]">
-      {shape === "leaf-left" && (
-        <Leaf rotation={-90} className="absolute inset-0 h-full w-full" />
-      )}
-      {shape === "leaf-right" && (
-        <Leaf className="absolute inset-0 h-full w-full" />
-      )}
-      {shape === "seed" && <Seed className="absolute inset-0 h-full w-full" />}
-      <div className="relative flex flex-col items-center gap-1 text-center font-candu uppercase text-emn-black md:gap-2">
-        <span className="font-sans text-[37cqw] font-bold leading-none">
-          <CountUp from={0} to={to} direction="up" duration={1.5} />
-          {suffix}
-        </span>
-        <span className="whitespace-nowrap text-[9cqw] leading-none">
-          {label}
-        </span>
-      </div>
-    </div>
+    <span className="box-decoration-clone rounded bg-emn-green px-1.5 text-emn-black">
+      {children}
+    </span>
   );
 }
 
@@ -72,11 +51,11 @@ export default function AboutSection({ className }: { className?: string }) {
   return (
     <section
       className={cn(
-        "flex w-full max-w-[1190px] flex-col items-center gap-12 rounded-section bg-emn-black px-6 py-12 md:gap-[60px] md:px-[30px] md:py-[53px]",
+        "flex w-full max-w-[1190px] flex-col items-center gap-8 rounded-section bg-emn-offwhite px-6 py-12 md:gap-[44px] md:px-[30px] md:py-[53px]",
         className,
       )}
     >
-      <h2 className="text-center font-candu text-[56px] uppercase leading-none text-emn-offwhite md:text-title">
+      <h2 className="text-center font-candu text-[56px] uppercase leading-none text-emn-black md:text-title">
         ABOUT EMN
       </h2>
 
@@ -91,23 +70,71 @@ export default function AboutSection({ className }: { className?: string }) {
       </div>
 
       <div className="flex max-w-[896px] flex-col gap-4 text-center">
-        <p className="text-lg text-emn-offwhite md:text-description">
-          We bring together students interested in finance, economics and
-          geopolitics to engage with the economies reshaping global growth,
-          capital and power.
+        <p className="text-lg text-emn-black md:text-description">
+          We bring together students interested in{" "}
+          <Highlight>finance</Highlight>, <Highlight>economics</Highlight> and{" "}
+          <Highlight>geopolitics</Highlight> to engage with the economies
+          reshaping global growth, capital and power.
         </p>
-        <p className="text-lg text-emn-offwhite/85 md:text-description">
-          Through industry events, case competitions, in house research and
-          social outings, members build commercial judgement, develop a global
-          perspective and connect with like-minded peers and industry
-          professionals.
+        <p className="text-lg text-emn-black/85 md:text-description">
+          Through industry{" "}
+          <Link
+            href="/events"
+            className="underline decoration-emn-green decoration-2 underline-offset-2"
+          >
+            events
+          </Link>
+          , case competitions, in house{" "}
+          <Link
+            href="/articles"
+            className="underline decoration-emn-green decoration-2 underline-offset-2"
+          >
+            research
+          </Link>{" "}
+          and social outings, members build commercial judgement, develop a{" "}
+          <Highlight>global perspective</Highlight> and connect with like-minded
+          peers and industry professionals.
         </p>
       </div>
 
-      <div className="flex w-full items-center justify-center gap-2 sm:gap-6 md:gap-10">
-        <Stat to={8} suffix="+" label="Events/ Year" shape="leaf-left" />
-        <Stat to={1} suffix="K+" label="Members" shape="seed" />
-        <Stat to={37} suffix="+" label="Nationalities" shape="leaf-right" />
+      <div className="flex w-fit max-w-full flex-wrap items-center justify-center gap-x-3 gap-y-3 rounded-tl-[28px] rounded-br-[28px] border-4 border-emn-black px-6 py-4 text-center text-2xl font-bold text-emn-black md:px-8 md:py-5 md:text-4xl">
+        <span>Our members are from:</span>
+        {/*
+          Reserve a fixed-width slot as wide as the longest country name so the
+          rotating pill can grow/shrink without nudging this label. An invisible
+          stack of every country (all in one grid cell) establishes that max
+          width — so it stays correct if the list changes — and the live pill is
+          centered inside it. font-kerning:none matches RotatingText, which lays
+          out each character as a separate inline-block (i.e. un-kerned).
+        */}
+        <span className="grid">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none invisible col-start-1 row-start-1 grid px-4 [font-kerning:none] md:px-5"
+          >
+            {MEMBER_COUNTRIES.map((country) => (
+              <span
+                key={country}
+                className="col-start-1 row-start-1 whitespace-nowrap"
+              >
+                {country}
+              </span>
+            ))}
+          </span>
+          <RotatingText
+            texts={MEMBER_COUNTRIES}
+            mainClassName="col-start-1 row-start-1 justify-self-center justify-center overflow-hidden rounded-lg bg-emn-black px-4 py-1.5 text-emn-offwhite md:px-5 md:py-2"
+            animatePresenceMode="popLayout"
+            staggerFrom="last"
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "-120%" }}
+            staggerDuration={0.025}
+            splitLevelClassName="overflow-hidden pb-1"
+            transition={{ type: "spring", damping: 20, stiffness: 200 }}
+            rotationInterval={2000}
+          />
+        </span>
       </div>
     </section>
   );
